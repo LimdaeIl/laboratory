@@ -1,13 +1,19 @@
 package com.book.laboratory.user.presentation;
 
-import com.book.laboratory.common.response.ApiResponse;
+import com.book.laboratory.common.security.CustomUserDetails;
 import com.book.laboratory.user.application.UserService;
+import com.book.laboratory.user.application.dto.request.LoginRequestDto;
 import com.book.laboratory.user.application.dto.request.SignupRequestDto;
+import com.book.laboratory.user.application.dto.response.LoginResponseDto;
 import com.book.laboratory.user.application.dto.response.SignupResponseDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +33,22 @@ public class UserController {
     return ResponseEntity
         .status(HttpStatus.CREATED)
         .body(responseDto);
+  }
+
+  @PostMapping("/login")
+  public ResponseEntity<LoginResponseDto> login(@RequestBody @Valid LoginRequestDto requestDto) {
+    LoginResponseDto responseDto = userService.login(requestDto);
+
+    return ResponseEntity
+        .status(HttpStatus.OK)
+        .body(responseDto);
+  }
+
+
+  @PreAuthorize("hasRole('ADMIN')")
+  @GetMapping("/me")
+  public ResponseEntity<String> getMyInfo(@AuthenticationPrincipal CustomUserDetails userDetails) {
+    return ResponseEntity.ok("내 ID는: " + userDetails.id());
   }
 
 }
