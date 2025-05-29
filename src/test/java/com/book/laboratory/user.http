@@ -7,3 +7,17 @@ Content-Type: application/json
   "password": "Study2025!",
   "name": "제임스"
 }
+
+### 로그인
+POST http://localhost:10000/users/login
+Content-Type: application/json
+
+{
+  "email": "lab2025@gmail.com",
+  "password": "Study2025!"
+}
+
+### ME
+GET http://localhost:10000/users/me
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsYWIyMDI1QGdtYWlsLmNvbSIsImlhdCI6MTc0ODUyMzg1MSwiZXhwIjoxNzQ4NTU5ODUxLCJyb2xlIjoiUk9MRV9BRE1JTiIsInNvY2lhbFR5cGUiOiJOT05FIiwidXNlcklkIjoxLCJqdGkiOiI4Zjc0MGJmNi1iZjQwLTQ1YTctYjE0MC1hN2U4NDNlY2FmYjkifQ.SE1n5upnaevVvb4loMEkRoK21q-z5UO7RVBz9IDMAzMlExkbuaVJmevMwo4ZIgcDRGYFuRQKaMq8w9SSXEogVQ
