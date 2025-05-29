@@ -39,11 +39,21 @@ public abstract class BaseEntity {
 
   protected Long deletedBy;
 
+  /**
+   * Marks the entity as deleted by setting the deletion timestamp and the ID of the user who performed the deletion.
+   *
+   * @param userId the identifier of the user marking the entity as deleted
+   */
   public void markDeleted(Long userId) {
     this.deletedAt = LocalDateTime.now();
     this.deletedBy = userId;
   }
 
+  /**
+   * Checks whether the entity has been marked as deleted.
+   *
+   * @return true if the entity is considered deleted; false otherwise
+   */
   public boolean isDeleted() {
     return this.deletedAt != null;
   }

@@ -20,6 +20,14 @@ public class UserController {
 
   private final UserService userService;
 
+  /**
+   * Handles user registration requests and returns the result.
+   *
+   * Accepts a JSON payload with user signup details, processes the registration, and responds with the created user's information and HTTP status 201 (Created).
+   *
+   * @param requestDto the signup request data
+   * @return a response entity containing the signup result and HTTP status 201
+   */
   @PostMapping("/signup")
   public ResponseEntity<SignupResponseDto> signup(@RequestBody @Valid SignupRequestDto requestDto) {
     SignupResponseDto responseDto = userService.signup(requestDto);

@@ -20,11 +20,23 @@ public class JwtTokenProvider {
   @Value("${jwt.access.expiration}")
   private long expiration;
 
+  /**
+   * Constructs a JwtTokenProvider by decoding the provided Base64-encoded secret and initializing the signing key.
+   *
+   * @param base64Secret the Base64-encoded secret string used to generate the HMAC SHA signing key
+   */
   public JwtTokenProvider(@Value("${jwt.secret}") String base64Secret) {
     byte[] keyBytes = Decoders.BASE64.decode(base64Secret);
     this.secretKey = Keys.hmacShaKeyFor(keyBytes);
   }
 
+  /**
+   * Generates a JWT token containing the user's email as the subject and their role as a claim.
+   *
+   * @param email the user's email to set as the token subject
+   * @param role the user's role to include as a claim named "ROLE"
+   * @return a signed JWT token string with subject, role, issued-at, and expiration claims
+   */
   public String createToken(String email, UserRole role) {
     return Jwts.builder()
         .subject(email)

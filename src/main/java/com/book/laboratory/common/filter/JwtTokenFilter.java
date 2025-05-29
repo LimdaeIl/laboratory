@@ -34,6 +34,17 @@ public class JwtTokenFilter extends GenericFilterBean {
 
   private final JwtTokenProvider jwtTokenProvider;
 
+  /**
+   * Filters incoming HTTP requests to validate JWT tokens and set authentication in the security context.
+   *
+   * If a valid JWT token is present in the "Authorization" header, the user's authentication is established in the Spring Security context. If the token is missing, invalid, or improperly formatted, the response is set to 401 Unauthorized with a JSON error message.
+   *
+   * @param request the incoming servlet request
+   * @param response the outgoing servlet response
+   * @param filterChain the filter chain to proceed with the request
+   * @throws IOException if an input or output error occurs
+   * @throws ServletException if a servlet error occurs
+   */
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain filterChain)
       throws IOException, ServletException {

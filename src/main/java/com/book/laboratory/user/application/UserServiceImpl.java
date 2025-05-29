@@ -15,12 +15,28 @@ public class UserServiceImpl implements UserService {
 
   private final UserRepository userRepository;
 
+  /**
+   * Checks if a user with the specified email exists and throws an exception if found.
+   *
+   * @param email the email address to check for existing users
+   * @throws CustomException if a user with the given email already exists
+   */
   private void existsUserByEmail(String email) {
     if (userRepository.existsUserByEmail(email)) {
       throw new CustomException(UserErrorCode.USER_ALREADY_EXISTS);
     }
   }
 
+  /**
+   * Registers a new user with the provided signup information.
+   *
+   * Checks for duplicate email addresses before creating and saving a new user entity.
+   * Returns a response DTO representing the newly registered user.
+   *
+   * @param requestDto the signup request containing user details
+   * @return a response DTO with the registered user's information
+   * @throws CustomException if a user with the given email already exists
+   */
   @Override
   public SignupResponseDto signup(SignupRequestDto requestDto) {
     existsUserByEmail(requestDto.email());

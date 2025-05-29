@@ -24,11 +24,26 @@ public class SecurityConfig {
 
   private final JwtTokenFilter jwtTokenFilter;
 
+  /**
+   * Provides a delegating password encoder bean for encoding and verifying passwords.
+   *
+   * @return a PasswordEncoder that supports multiple encoding formats
+   */
   @Bean
   public PasswordEncoder makePasswordEncoder() {
     return PasswordEncoderFactories.createDelegatingPasswordEncoder();
   }
 
+  /**
+   * Configures the application's security filter chain, including CORS, CSRF, session management, and authorization rules.
+   *
+   * Permits all requests to paths under `/users/**` without authentication and requires authentication for all other requests.
+   * Adds the JWT token filter before the username/password authentication filter to enable JWT-based authentication.
+   *
+   * @param http the {@link HttpSecurity} to modify
+   * @return the configured {@link SecurityFilterChain}
+   * @throws Exception if an error occurs during security configuration
+   */
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
@@ -50,6 +65,11 @@ public class SecurityConfig {
     return http.build();
   }
 
+  /**
+   * Defines a CORS configuration source bean allowing requests from http://localhost:3000 with all methods and headers permitted and credentials allowed.
+   *
+   * @return a CorsConfigurationSource configured for all paths
+   */
   @Bean
   public CorsConfigurationSource configurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
