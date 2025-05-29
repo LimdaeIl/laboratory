@@ -10,7 +10,7 @@ services:
     ports:
       - "${POSTGRES_PORT}:5432"
     volumes:
-      - postgres-db:/var/lib/postgresql/data
+      - postgres:/var/lib/postgresql/data  # Named volume 만 사용
     networks:
       - lab-network
 
@@ -20,13 +20,12 @@ services:
     ports:
       - "${REDIS_PORT}:6379"
     volumes:
-      - ./redis-config:/usr/local/etc/redis
+      - ./redis-auth-config:/usr/local/etc/redis
     networks:
       - lab-network
 
 volumes:
-  postgres-db:
+  postgres:
 
 networks:
   lab-network:
-
