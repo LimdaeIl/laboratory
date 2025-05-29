@@ -1,0 +1,9 @@
+### 회원가입(일반)
+POST http://localhost:10000/users/signup
+Content-Type: application/json
+
+{
+  "email": "lab2025@gmail.com",
+  "password": "Study2025!",
+  "name": "제임스"
+}
