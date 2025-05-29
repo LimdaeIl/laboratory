@@ -30,7 +30,7 @@ jwt:
   access:
     expiration: ${JWT_ACCESS_EXPIRE}
   refresh:
-    expire: ${JWT_REFRESH_EXPIRE}
+    expiration: ${JWT_REFRESH_EXPIRE}
 
 ---
 
