@@ -57,9 +57,9 @@ spring:
           starttls:
             enable: true
             required: true
-          connectionTimeout: ${NAVER_TIMEOUT}
-          timeout: ${NAVER_TIMEOUT}
-          writeTimeout: ${NAVER_TIMEOUT}
+          connectionTimeout: 5000
+          timeout: 5000
+          writeTimeout: 5000
         debug: true
 
 ---
