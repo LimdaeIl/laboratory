@@ -1,0 +1,65 @@
+server:
+  port: ${SERVER_PORT}
+
+spring:
+  application:
+    name: ${SPRING_APP_NAME}
+
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    defer-datasource-initialization: true
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+
+
+---
+
+jwt:
+  secret: ${JWT_SECRET}
+  access:
+    expire: ${JWT_ACCESS_EXPIRE}
+  refresh:
+    expire: ${JWT_REFRESH_EXPIRE}
+
+---
+
+spring:
+  data:
+    redis:
+      port: ${REDIS_PORT}
+      host: ${REDIS_HOST}
+
+---
+
+spring:
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: ${NAVER_ID}
+    password: ${NAVER_PW}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+          starttls:
+            enable: true
+            required: true
+          connectionTimeout: ${NAVER_TIMEOUT}
+          timeout: ${NAVER_TIMEOUT}
+          writeTimeout: ${NAVER_TIMEOUT}
+        debug: true
+
+---
