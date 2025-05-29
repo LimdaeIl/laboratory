@@ -7,13 +7,16 @@ import com.book.laboratory.user.domain.User;
 import com.book.laboratory.user.domain.UserErrorCode;
 import com.book.laboratory.user.domain.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
 
   private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
 
   private void existsUserByEmail(String email) {
     if (userRepository.existsUserByEmail(email)) {
@@ -21,13 +24,14 @@ public class UserServiceImpl implements UserService {
     }
   }
 
+  @Transactional
   @Override
   public SignupResponseDto signup(SignupRequestDto requestDto) {
     existsUserByEmail(requestDto.email());
 
     User buildUser = User.builder()
         .email(requestDto.email())
-        .password(requestDto.password())
+        .password(passwordEncoder.encode(requestDto.password()))
         .name(requestDto.name())
         .profileImageUrl(requestDto.profileImageUrl())
         .build();

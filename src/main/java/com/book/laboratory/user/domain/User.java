@@ -47,7 +47,7 @@ public class User extends BaseEntity {
   private UserRole userRole = UserRole.ROLE_USER;
 
   @Enumerated(EnumType.STRING)
-  @Column(name = "soical_type")
+  @Column(name = "social_type")
   private SocialType socialType;
 
   @Column(name = "social_id", length = 200)

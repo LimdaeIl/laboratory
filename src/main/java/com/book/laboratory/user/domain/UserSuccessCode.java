@@ -1,5 +1,6 @@
 package com.book.laboratory.user.domain;
 
+import static org.springframework.http.HttpStatus.CREATED;
 import static org.springframework.http.HttpStatus.OK;
 
 import com.book.laboratory.common.response.SuccessCode;
@@ -24,7 +25,7 @@ public enum UserSuccessCode implements SuccessCode {
   USER_DELETE_BY_ID_SUCCESS(0, "회원 삭제에 성공했습니다.", OK),
 
   // ────────────── [회원가입/로그인 관련] ──────────────
-  USER_SIGNUP_SUCCESS(0, "회원가입이 성공적으로 완료되었습니다.", OK),
+  USER_SIGNUP_SUCCESS(0, "회원가입이 성공적으로 완료되었습니다.", CREATED),
   USER_LOGIN_SUCCESS(0, "로그인이 성공적으로 완료되었습니다.", OK),
   USER_LOGOUT_SUCCESS(0, "로그아웃이 성공적으로 완료되었습니다.", OK),
 
