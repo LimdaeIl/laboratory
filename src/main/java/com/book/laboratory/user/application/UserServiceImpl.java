@@ -86,9 +86,8 @@ public class UserServiceImpl implements UserService {
   @Transactional(readOnly = true)
   @Override
   public GetMyInfoResponseDto getMyInfo(CustomUserDetails userDetails, Long targetUserId) {
-    User targetUser = findUserById(targetUserId);
-
     validateAccessPermission(userDetails, targetUserId);
+    User targetUser = findUserById(targetUserId);
 
     return GetMyInfoResponseDto.from(targetUser);
   }
