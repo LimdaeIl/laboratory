@@ -83,19 +83,18 @@ public class JwtTokenProvider {
     return null;
   }
 
-
   public Claims extractClaims(String bearerToken) {
-    if (bearerToken.isBlank() || !bearerToken.startsWith("Bearer ")) {
+    if (bearerToken == null || bearerToken.isBlank()) {
       throw new CustomException(UserErrorCode.INVALID_BEARER_TOKEN);
     }
 
-    String token = bearerToken.substring(7);
+    String rawToken = bearerToken.startsWith("Bearer ") ? bearerToken.substring(7) : bearerToken;
 
     try {
       return Jwts.parser()
           .verifyWith(secretKey)
           .build()
-          .parseSignedClaims(token)
+          .parseSignedClaims(rawToken)
           .getPayload();
     } catch (ExpiredJwtException e) {
       throw new CustomException(UserErrorCode.TOKEN_EXPIRED);

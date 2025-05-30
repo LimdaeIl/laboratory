@@ -11,20 +11,15 @@ public record LoginResponseDto(
     String email,
     String name,
     String profileImageUrl,
-    UserRole userRole,
-    String accessToken,
-    String refreshToken
-) {
+    UserRole userRole) {
 
-  public static LoginResponseDto from(User user, String accessToken, String refreshToken) {
+  public static LoginResponseDto from(User user) {
     return LoginResponseDto.builder()
         .id(user.getId())
         .email(user.getEmail())
         .name(user.getName())
         .profileImageUrl(user.getProfileImageUrl())
         .userRole(user.getUserRole())
-        .accessToken(accessToken)
-        .refreshToken(refreshToken)
         .build();
   }
 
