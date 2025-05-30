@@ -21,7 +21,7 @@ Content-Type: application/json
     client.global.set("email", response.body.email);
     client.global.set("userRole", response.body.userRole);
     client.global.set("accessToken", response.body.accessToken);
-    client.global.set("refreshToken", response.b2ody.refreshToken);
+    client.global.set("refreshToken", response.body.refreshToken);
 %}
 
 
