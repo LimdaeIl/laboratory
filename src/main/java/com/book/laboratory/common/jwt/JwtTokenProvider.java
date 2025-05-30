@@ -38,11 +38,18 @@ public class JwtTokenProvider {
     Date nowDate = new Date(now);
     Date expDate = new Date(now + ttlMillis);
 
+    if (subject == null || subject.isBlank()) {
+      throw new CustomException(UserErrorCode.INVALID_JWT_SUBJECT);
+    }
+    if (ttlMillis <= 0) {
+      throw new CustomException(UserErrorCode.INVALID_JWT_TTL);
+    }
+
     return Jwts.builder()
+        .claims(claims)
         .subject(subject)
         .issuedAt(nowDate)
         .expiration(expDate)
-        .claims(claims)
         .signWith(secretKey)
         .compact();
   }
@@ -55,13 +62,25 @@ public class JwtTokenProvider {
 
   public String getTokenId(String bearerToken) {
     Claims claims = extractClaims(bearerToken);
-    return claims.getId();
+    String jti = claims.getId();
+
+    if (jti == null) {
+      throw new CustomException(UserErrorCode.MISSING_JWT_ID);
+    }
+
+    return jti;
   }
 
 
   public Long getUserIdByToken(String bearerToken) {
     Claims claims = extractClaims(bearerToken);
-    return claims.get("userId", Long.class);
+    Long userId = claims.get("userId", Long.class);
+
+    if (userId == null) {
+      throw new CustomException(UserErrorCode.MISSING_USER_ID_IN_TOKEN);
+    }
+
+    return null;
   }
 
 

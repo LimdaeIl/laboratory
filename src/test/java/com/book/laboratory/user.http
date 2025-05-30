@@ -3,9 +3,9 @@ POST http://localhost:10000/users/signup
 Content-Type: application/json
 
 {
-  "email": "lab2025@gmail.com",
-  "password": "Study2025!",
-  "name": "제임스"
+  "email": "test@gmail.com",
+  "password": "Password123!",
+  "name": "alice"
 }
 
 ### 로그인
@@ -13,11 +13,19 @@ POST http://localhost:10000/users/login
 Content-Type: application/json
 
 {
-  "email": "lab2025@gmail.com",
-  "password": "Study2025!"
+  "email": "test@gmail.com",
+  "password": "Password123!"
 }
+
+> {%
+    client.global.set("email", response.body.email);
+    client.global.set("userRole", response.body.userRole);
+    client.global.set("accessToken", response.body.accessToken);
+    client.global.set("refreshToken", response.body.refreshToken);
+%}
+
 
 ### ME
 GET http://localhost:10000/users/me
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsYWIyMDI1QGdtYWlsLmNvbSIsImlhdCI6MTc0ODUyMzg1MSwiZXhwIjoxNzQ4NTU5ODUxLCJyb2xlIjoiUk9MRV9BRE1JTiIsInNvY2lhbFR5cGUiOiJOT05FIiwidXNlcklkIjoxLCJqdGkiOiI4Zjc0MGJmNi1iZjQwLTQ1YTctYjE0MC1hN2U4NDNlY2FmYjkifQ.SE1n5upnaevVvb4loMEkRoK21q-z5UO7RVBz9IDMAzMlExkbuaVJmevMwo4ZIgcDRGYFuRQKaMq8w9SSXEogVQ
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QGdtYWlsLmNvbSIsImlhdCI6MTc0ODU2NjQ0MiwiZXhwIjoxNzQ4NjAyNDQyLCJyb2xlIjoiUk9MRV9VU0VSIiwic29jaWFsVHlwZSI6Ik5PTkUiLCJ1c2VySWQiOjEsImp0aSI6ImUxZDY3Njc4LTAwNzQtNDY1Zi1iOTUxLTM0MmI2NmZkNjYzNSJ9.3Ksc49sl4RCF5rBo-1oGI6_OTEuPHvQp6EXDj8V7GEHbbHQ7KtxRPPUJfZaSWpJr-SXjLhCDqS3j8JAWEHsYpA
