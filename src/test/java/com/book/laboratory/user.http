@@ -25,7 +25,9 @@ Content-Type: application/json
 %}
 
 
-### ME
-GET http://localhost:10000/users/me
+### 마이페이지
+GET http://localhost:10000/users/1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QGdtYWlsLmNvbSIsImlhdCI6MTc0ODU2NjQ0MiwiZXhwIjoxNzQ4NjAyNDQyLCJyb2xlIjoiUk9MRV9VU0VSIiwic29jaWFsVHlwZSI6Ik5PTkUiLCJ1c2VySWQiOjEsImp0aSI6ImUxZDY3Njc4LTAwNzQtNDY1Zi1iOTUxLTM0MmI2NmZkNjYzNSJ9.3Ksc49sl4RCF5rBo-1oGI6_OTEuPHvQp6EXDj8V7GEHbbHQ7KtxRPPUJfZaSWpJr-SXjLhCDqS3j8JAWEHsYpA
+Authorization: Bearer {{accessToken}}
+
+{}
