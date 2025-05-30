@@ -41,7 +41,12 @@ public enum UserErrorCode implements ErrorCode {
   REFRESH_TOKEN_NOT_FOUND(HttpStatus.NOT_FOUND.value(), "리프레시 토큰을 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
   MALFORMED_TOKEN(HttpStatus.BAD_REQUEST.value(), "JWT 형식이 잘못되었습니다.", HttpStatus.BAD_REQUEST),
   TAMPERED_TOKEN(HttpStatus.UNAUTHORIZED.value(), "JWT 서명이 위조되었거나 무결성이 손상되었습니다.", HttpStatus.UNAUTHORIZED),
-  TOKEN_TOO_EARLY(HttpStatus.BAD_REQUEST.value(), "JWT 활성화 시간이 아직 되지 않았습니다.", HttpStatus.BAD_REQUEST);
+  TOKEN_TOO_EARLY(HttpStatus.BAD_REQUEST.value(), "JWT 활성화 시간이 아직 되지 않았습니다.", HttpStatus.BAD_REQUEST),
+  MISSING_USER_ID_IN_TOKEN(HttpStatus.BAD_REQUEST.value(), "토큰에 사용자 ID가 없습니다.", HttpStatus.BAD_REQUEST),
+  MISSING_JWT_ID(HttpStatus.BAD_REQUEST.value(), "토큰에 JWT ID가 없습니다.", HttpStatus.BAD_REQUEST),
+  INVALID_JWT_SUBJECT(HttpStatus.BAD_REQUEST.value(), "JWT Subject가 유효하지 않습니다.", HttpStatus.BAD_REQUEST),
+  INVALID_JWT_TTL(HttpStatus.BAD_REQUEST.value(), "JWT TTL이 유효하지 않습니다.", HttpStatus.BAD_REQUEST);
+
 
   private final Integer code;
   private final String message;

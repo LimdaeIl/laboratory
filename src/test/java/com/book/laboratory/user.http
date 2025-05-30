@@ -3,7 +3,29 @@ POST http://localhost:10000/users/signup
 Content-Type: application/json
 
 {
-  "email": "lab2025@gmail.com",
-  "password": "Study2025!",
-  "name": "제임스"
+  "email": "test@gmail.com",
+  "password": "Password123!",
+  "name": "alice"
 }
+
+### 로그인
+POST http://localhost:10000/users/login
+Content-Type: application/json
+
+{
+  "email": "test@gmail.com",
+  "password": "Password123!"
+}
+
+> {%
+    client.global.set("email", response.body.email);
+    client.global.set("userRole", response.body.userRole);
+    client.global.set("accessToken", response.body.accessToken);
+    client.global.set("refreshToken", response.body.refreshToken);
+%}
+
+
+### ME
+GET http://localhost:10000/users/me
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0QGdtYWlsLmNvbSIsImlhdCI6MTc0ODU2NjQ0MiwiZXhwIjoxNzQ4NjAyNDQyLCJyb2xlIjoiUk9MRV9VU0VSIiwic29jaWFsVHlwZSI6Ik5PTkUiLCJ1c2VySWQiOjEsImp0aSI6ImUxZDY3Njc4LTAwNzQtNDY1Zi1iOTUxLTM0MmI2NmZkNjYzNSJ9.3Ksc49sl4RCF5rBo-1oGI6_OTEuPHvQp6EXDj8V7GEHbbHQ7KtxRPPUJfZaSWpJr-SXjLhCDqS3j8JAWEHsYpA
