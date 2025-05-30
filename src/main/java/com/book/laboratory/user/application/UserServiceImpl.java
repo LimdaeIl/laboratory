@@ -4,8 +4,10 @@ import com.book.laboratory.common.exception.CustomException;
 import com.book.laboratory.common.jwt.JwtService;
 import com.book.laboratory.common.redis.RedisKeySupport;
 import com.book.laboratory.common.redis.RedisService;
+import com.book.laboratory.common.security.CustomUserDetails;
 import com.book.laboratory.user.application.dto.request.LoginRequestDto;
 import com.book.laboratory.user.application.dto.request.SignupRequestDto;
+import com.book.laboratory.user.application.dto.response.GetMyInfoResponseDto;
 import com.book.laboratory.user.application.dto.response.LoginResponseDto;
 import com.book.laboratory.user.application.dto.response.LoginResponseWithCookieDto;
 import com.book.laboratory.user.application.dto.response.SignupResponseDto;
@@ -13,6 +15,7 @@ import com.book.laboratory.user.domain.User;
 import com.book.laboratory.user.domain.UserErrorCode;
 import com.book.laboratory.user.domain.UserRepository;
 import java.time.Duration;
+import com.book.laboratory.user.domain.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,10 +37,25 @@ public class UserServiceImpl implements UserService {
     }
   }
 
-  public User findUserByEmail(String email) {
+  private User findUserByEmail(String email) {
     return userRepository.findUserByEmail(email)
         .orElseThrow(() -> new CustomException(UserErrorCode.INVALID_LOGIN));
   }
+
+  private User findUserById(Long id) {
+    return userRepository.findUserById(id)
+        .orElseThrow(() -> new CustomException(UserErrorCode.USER_NOT_FOUND_BY_ID));
+  }
+
+  private void validateAccessPermission(CustomUserDetails requester, Long targetUserId) {
+    boolean isAdmin = requester.role() == UserRole.ROLE_ADMIN;
+    boolean isSelf = requester.id().equals(targetUserId);
+
+    if (!isAdmin && !isSelf) {
+      throw new CustomException(UserErrorCode.USER_GET_FORBIDDEN);
+    }
+  }
+
 
   @Transactional
   @Override
@@ -87,6 +105,15 @@ public class UserServiceImpl implements UserService {
         refreshCookie,
         accessToken
     );
+  }
+
+  @Transactional(readOnly = true)
+  @Override
+  public GetMyInfoResponseDto getMyInfo(CustomUserDetails userDetails, Long targetUserId) {
+    validateAccessPermission(userDetails, targetUserId);
+    User targetUser = findUserById(targetUserId);
+
+    return GetMyInfoResponseDto.from(targetUser);
   }
 
 
