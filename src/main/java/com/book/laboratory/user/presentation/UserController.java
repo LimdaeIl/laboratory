@@ -4,6 +4,7 @@ import com.book.laboratory.common.security.CustomUserDetails;
 import com.book.laboratory.user.application.UserService;
 import com.book.laboratory.user.application.dto.request.LoginRequestDto;
 import com.book.laboratory.user.application.dto.request.SignupRequestDto;
+import com.book.laboratory.user.application.dto.response.GetMyInfoResponseDto;
 import com.book.laboratory.user.application.dto.response.LoginResponseDto;
 import com.book.laboratory.user.application.dto.response.SignupResponseDto;
 import jakarta.validation.Valid;
@@ -12,8 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -45,10 +46,18 @@ public class UserController {
   }
 
 
-  @PreAuthorize("hasRole('ADMIN')")
-  @GetMapping("/me")
-  public ResponseEntity<String> getMyInfo(@AuthenticationPrincipal CustomUserDetails userDetails) {
-    return ResponseEntity.ok("내 ID는: " + userDetails.id());
+  @PreAuthorize("hasAnyRole('ADMIN', 'STORE', 'USER')")
+  @GetMapping("/{id}")
+  public ResponseEntity<GetMyInfoResponseDto> getMyInfo(
+      @AuthenticationPrincipal CustomUserDetails userDetails,
+      @PathVariable Long id
+      ) {
+
+    GetMyInfoResponseDto responseDto = userService.getMyInfo(userDetails, id);
+
+    return ResponseEntity
+        .status(HttpStatus.OK)
+        .body(responseDto);
   }
 
 }
