@@ -5,14 +5,16 @@ import com.book.laboratory.user.application.UserService;
 import com.book.laboratory.user.application.dto.request.LoginRequestDto;
 import com.book.laboratory.user.application.dto.request.SignupRequestDto;
 import com.book.laboratory.user.application.dto.response.LoginResponseDto;
+import com.book.laboratory.user.application.dto.response.LoginResponseWithCookieDto;
 import com.book.laboratory.user.application.dto.response.SignupResponseDto;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,18 +38,24 @@ public class UserController {
   }
 
   @PostMapping("/login")
-  public ResponseEntity<LoginResponseDto> login(@RequestBody @Valid LoginRequestDto requestDto) {
-    LoginResponseDto responseDto = userService.login(requestDto);
+  public ResponseEntity<LoginResponseDto> login(
+      @RequestBody @Valid LoginRequestDto requestDto,
+      HttpServletResponse response) {
+    LoginResponseWithCookieDto result = userService.login(requestDto);
+    response.addHeader("Set-Cookie", result.refreshCookie().toString());
 
     return ResponseEntity
         .status(HttpStatus.OK)
-        .body(responseDto);
+        .header(HttpHeaders.AUTHORIZATION, "Bearer " + result.accessToken())
+        .body(result.responseDto());
   }
 
 
-  @PreAuthorize("hasRole('ADMIN')")
+  @PreAuthorize("hasAnyRole('ADMIN', 'USER', 'STORE')")
   @GetMapping("/me")
-  public ResponseEntity<String> getMyInfo(@AuthenticationPrincipal CustomUserDetails userDetails) {
+  public ResponseEntity<String> getMyInfo(
+      @AuthenticationPrincipal CustomUserDetails userDetails
+  ) {
     return ResponseEntity.ok("내 ID는: " + userDetails.id());
   }
 
