@@ -11,6 +11,7 @@ import com.book.laboratory.user.application.dto.response.GenerateTokenResponseDt
 import com.book.laboratory.user.application.dto.response.GetMyInfoResponseDto;
 import com.book.laboratory.user.application.dto.response.LoginResponseDto;
 import com.book.laboratory.user.application.dto.response.LoginResponseWithCookieDto;
+import com.book.laboratory.user.application.dto.response.LogoutResponseDto;
 import com.book.laboratory.user.application.dto.response.SignupResponseDto;
 import com.book.laboratory.user.domain.User;
 import com.book.laboratory.user.domain.UserErrorCode;
@@ -160,5 +161,34 @@ public class UserServiceImpl implements UserService {
     return GenerateTokenResponseDto.of(refreshCookie, newAccessToken);
   }
 
+  @Transactional
+  @Override
+  public LogoutResponseDto logout(String jti) {
+    if (jti == null || jti.isBlank()) {
+      throw new CustomException(UserErrorCode.MISSING_JWT_ID);
+    }
+    if (redisService.exists(RedisKeySupport.BlacklistToken(jti))) {
+      throw new CustomException(UserErrorCode.TOKEN_ALREADY_USED);
+    }
 
+    String refreshTokenKey = RedisKeySupport.refreshToken(jti);
+    String refreshToken = redisService.get(refreshTokenKey, String.class);
+
+    Duration remainingTtl = Duration.ofMillis(jwtService.getRemainingMillisByToken(refreshToken));
+    redisService.delete(refreshTokenKey);
+    redisService.set(RedisKeySupport.BlacklistToken(jti), "BL", remainingTtl);
+
+    Long userId = jwtService.getUserId(refreshToken);
+    findUserById(userId);
+
+    ResponseCookie refreshCookie = ResponseCookie.from("RT")
+        .httpOnly(true)
+        .secure(true)
+        .sameSite("Strict")
+        .path("/")
+        .maxAge(0)
+        .build();
+
+    return new LogoutResponseDto(refreshCookie);
+  }
 }

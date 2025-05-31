@@ -7,6 +7,7 @@ import com.book.laboratory.user.application.dto.response.GenerateTokenResponseDt
 import com.book.laboratory.user.application.dto.response.GetMyInfoResponseDto;
 import com.book.laboratory.user.application.dto.response.LoginResponseDto;
 import com.book.laboratory.user.application.dto.response.LoginResponseWithCookieDto;
+import com.book.laboratory.user.application.dto.response.LogoutResponseDto;
 import com.book.laboratory.user.application.dto.response.SignupResponseDto;
 import jakarta.validation.Valid;
 
@@ -18,4 +19,5 @@ public interface UserService {
 
   GenerateTokenResponseDto generateToken(String jti);
 
+  LogoutResponseDto logout(String jti);
 }

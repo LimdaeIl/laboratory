@@ -8,12 +8,14 @@ import com.book.laboratory.user.application.dto.response.GenerateTokenResponseDt
 import com.book.laboratory.user.application.dto.response.GetMyInfoResponseDto;
 import com.book.laboratory.user.application.dto.response.LoginResponseDto;
 import com.book.laboratory.user.application.dto.response.LoginResponseWithCookieDto;
+import com.book.laboratory.user.application.dto.response.LogoutResponseDto;
 import com.book.laboratory.user.application.dto.response.SignupResponseDto;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -61,7 +63,6 @@ public class UserController {
       @AuthenticationPrincipal CustomUserDetails userDetails,
       @PathVariable Long id
   ) {
-
     GetMyInfoResponseDto responseDto = userService.getMyInfo(userDetails, id);
 
     return ResponseEntity
@@ -81,6 +82,19 @@ public class UserController {
         .ok()
         .header(HttpHeaders.AUTHORIZATION, "Bearer " + responseDto.accessToken())
         .build();
+  }
+
+  @PostMapping("/logout")
+  public ResponseEntity<Void> logout(
+      @CookieValue(value = "RT", required = false) String jti,
+      HttpServletResponse response
+  ) {
+    LogoutResponseDto responseDto = userService.logout(jti);
+    ResponseCookie deleteCookie = responseDto.responseCookie();
+
+    response.setHeader(HttpHeaders.SET_COOKIE, deleteCookie.toString());
+
+    return ResponseEntity.noContent().build();
   }
 
 
