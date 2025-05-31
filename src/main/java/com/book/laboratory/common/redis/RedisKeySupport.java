@@ -2,15 +2,16 @@ package com.book.laboratory.common.redis;
 
 public final class RedisKeySupport {
 
-  private RedisKeySupport() {} // 유틸리티 클래스: 생성자 막기
+  private RedisKeySupport() {
+  } // 유틸리티 클래스: 생성자 막기
 
   // ==== 인증: R: Refresh, B: Blacklist, E: Email ====
-  public static String refreshToken(String refreshToken) {
-    return "RT:" + refreshToken;
+  public static String refreshToken(String jti) {
+    return "RT:" + jti;
   }
 
-  public static String BlacklistToken(Long userId) {
-    return "BL:" + userId;
+  public static String BlacklistToken(String jti) {
+    return "BL:" + jti;
   }
 
   public static String emailVerification(String email) {
@@ -35,5 +36,4 @@ public final class RedisKeySupport {
   public static String rateLimit(String ip) {
     return "ratelimit:ip:" + ip;
   }
-
 }
