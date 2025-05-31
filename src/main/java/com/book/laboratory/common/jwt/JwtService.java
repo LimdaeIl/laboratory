@@ -54,5 +54,7 @@ public class JwtService {
     return jwtTokenProvider.getUserIdByToken(bearerToken);
   }
 
-
+  public long getRemainingMillisByToken(String bearerToken) {
+    return jwtTokenProvider.getRemainingMillisByToken(bearerToken);
+  }
 }

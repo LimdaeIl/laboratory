@@ -45,7 +45,8 @@ public enum UserErrorCode implements ErrorCode {
   MISSING_USER_ID_IN_TOKEN(HttpStatus.BAD_REQUEST.value(), "토큰에 사용자 ID가 없습니다.", HttpStatus.BAD_REQUEST),
   MISSING_JWT_ID(HttpStatus.BAD_REQUEST.value(), "토큰에 JWT ID가 없습니다.", HttpStatus.BAD_REQUEST),
   INVALID_JWT_SUBJECT(HttpStatus.BAD_REQUEST.value(), "JWT Subject가 유효하지 않습니다.", HttpStatus.BAD_REQUEST),
-  INVALID_JWT_TTL(HttpStatus.BAD_REQUEST.value(), "JWT TTL이 유효하지 않습니다.", HttpStatus.BAD_REQUEST);
+  INVALID_JWT_TTL(HttpStatus.BAD_REQUEST.value(), "JWT TTL이 유효하지 않습니다.", HttpStatus.BAD_REQUEST),
+  TOKEN_ALREADY_USED(HttpStatus.FORBIDDEN.value(), "이미 사용된 토큰입니다.", HttpStatus.FORBIDDEN);
 
 
   private final Integer code;

@@ -80,7 +80,7 @@ public class JwtTokenProvider {
       throw new CustomException(UserErrorCode.MISSING_USER_ID_IN_TOKEN);
     }
 
-    return null;
+    return userId;
   }
 
   public Claims extractClaims(String bearerToken) {
