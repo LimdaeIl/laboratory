@@ -81,9 +81,6 @@ class UserServiceGetMyInfoTest {
   @DisplayName("[getMyInfo]: 일반 사용자가 다른 사용자 정보를 요청하면 예외 발생")
   @Test
   void ShouldThrowExceptionWhenRegularUserRequestsOtherUserInfo() {
-    // given
-    User otherUser = createUser(otherUserId, "other@example.com");
-    given(userRepository.findUserById(otherUserId)).willReturn(Optional.of(otherUser));
 
     // when & then
     assertThatThrownBy(() -> userService.getMyInfo(regularUser, otherUserId))
@@ -94,8 +91,6 @@ class UserServiceGetMyInfoTest {
   @DisplayName("[getMyInfo]: 존재하지 않는 사용자 요청시 예외발생")
   @Test
   void ShouldThrowExceptionWhenUserNotFound() {
-    // given
-    given(userRepository.findUserById(999L)).willReturn(Optional.empty());
 
     // when & then
     assertThatThrownBy(() -> userService.getMyInfo(regularUser, 999L))
