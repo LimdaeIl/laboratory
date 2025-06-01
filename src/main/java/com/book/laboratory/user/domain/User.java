@@ -2,8 +2,6 @@ package com.book.laboratory.user.domain;
 
 import com.book.laboratory.common.audit.BaseEntity;
 import com.book.laboratory.common.exception.CustomException;
-import com.book.laboratory.common.security.CustomUserDetails;
-import com.book.laboratory.user.application.dto.request.UpdatePasswordRequestDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
