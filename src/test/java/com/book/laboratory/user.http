@@ -88,3 +88,11 @@ Content-Type: application/json
   "email": "optional94@naver.com",
   "code": "802817"
 }
+
+###
+POST http://localhost:10000/users/password
+Content-Type: application/json
+
+{
+  "newPassword": ""
+}
