@@ -42,3 +42,33 @@ POST http://localhost:10000/users/logout
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwic29jaWFsVHlwZSI6Ik5PTkUiLCJ1c2VySWQiOjEsImp0aSI6IjczZDkxMGZmLWJhMmUtNDk2ZS1hMzcwLWEyZTI3ZDlmZGYzOCIsInN1YiI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzQ4NjYxOTM3LCJleHAiOjE3NDg2NjU1Mzd9.pRyKeEhzgeuvZGxgR4av0IlSwsG4zdCRI3W7fiH13VtOg2R-wspBg9VvI9K7eGpC-JYMRNOmmdCiYSjqoleGNw
 Cookie: RT=06233b0f-60a3-47d0-8e81-08f8499e730b
+
+
+### 회원 동적 조회
+GET http://localhost:10000/users?id=1
+    &name=홍길동
+    &email=test@example.com
+    &userRole=ROLE_USER
+    &socialType=KAKAO
+    &socialId=abc12345
+    &createdFrom=2025-01-01T00:00:00
+    &createdTo=2025-12-31T23:59:59
+    &updatedFrom=2025-01-01T00:00:00
+    &updatedTo=2025-12-28T23:59:59
+    &deletedFrom=2025-01-01T00:00:00
+    &deletedTo=2025-12-31T23:59:59
+    &createdBy=10
+    &updatedBy=20
+    &deletedBy=30
+    &page=0
+    &size=10
+    &sort=createdAt,desc
+    &sort=id,desc
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwic29jaWFsVHlwZSI6Ik5PTkUiLCJ1c2VySWQiOjEsImp0aSI6IjljM2Q2ZjgwLTMxOGItNDEyMy05OTMzLTBhZjhjOGJiNDM0YyIsInN1YiI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzQ4NzQwOTk5LCJleHAiOjE3NDg3NDQ1OTl9.n9uWsSG1rT11rS2SiUXhLUxPS26r8W6E8WivKdZscJtCOwbVbJEX5Aix32IHoZRIbjPpS2TRw_PrdVMReWun5Q
+
+### 회원 동적 조회
+GET http://localhost:10000/users
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwic29jaWFsVHlwZSI6Ik5PTkUiLCJ1c2VySWQiOjEsImp0aSI6IjljM2Q2ZjgwLTMxOGItNDEyMy05OTMzLTBhZjhjOGJiNDM0YyIsInN1YiI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzQ4NzQwOTk5LCJleHAiOjE3NDg3NDQ1OTl9.n9uWsSG1rT11rS2SiUXhLUxPS26r8W6E8WivKdZscJtCOwbVbJEX5Aix32IHoZRIbjPpS2TRw_PrdVMReWun5Q
+

@@ -2,10 +2,12 @@ package com.book.laboratory.user.presentation;
 
 import com.book.laboratory.common.security.CustomUserDetails;
 import com.book.laboratory.user.application.UserService;
+import com.book.laboratory.user.application.dto.condition.UserSearchCondition;
 import com.book.laboratory.user.application.dto.request.LoginRequestDto;
 import com.book.laboratory.user.application.dto.request.SignupRequestDto;
 import com.book.laboratory.user.application.dto.response.GenerateTokenResponseDto;
 import com.book.laboratory.user.application.dto.response.GetMyInfoResponseDto;
+import com.book.laboratory.user.application.dto.response.GetUsersResponseDto;
 import com.book.laboratory.user.application.dto.response.LoginResponseDto;
 import com.book.laboratory.user.application.dto.response.LoginResponseWithCookieDto;
 import com.book.laboratory.user.application.dto.response.LogoutResponseDto;
@@ -13,6 +15,12 @@ import com.book.laboratory.user.application.dto.response.SignupResponseDto;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.web.PageableDefault;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -35,7 +43,8 @@ public class UserController {
   private final UserService userService;
 
   @PostMapping("/signup")
-  public ResponseEntity<SignupResponseDto> signup(@RequestBody @Valid SignupRequestDto requestDto) {
+  public ResponseEntity<SignupResponseDto> signup(
+      @RequestBody @Valid SignupRequestDto requestDto) {
     SignupResponseDto responseDto = userService.signup(requestDto);
 
     return ResponseEntity
@@ -96,6 +105,35 @@ public class UserController {
 
     return ResponseEntity.noContent().build();
   }
+
+  @PreAuthorize("hasAnyRole('USER')")
+  @GetMapping
+  public ResponseEntity<Page<GetUsersResponseDto>> getUsers(
+      @ParameterObject UserSearchCondition condition,
+      @PageableDefault(size = 10)
+      @SortDefault.SortDefaults({
+          @SortDefault(sort = "createdAt", direction = Direction.DESC),
+          @SortDefault(sort = "id", direction = Direction.DESC)
+      })
+      Pageable page
+  ) {
+    Page<GetUsersResponseDto> responseDtos = userService.getUsers(condition, page);
+
+    return ResponseEntity
+        .status(HttpStatus.OK)
+        .body(responseDtos);
+  }
+  // 이메일 인증
+
+  
+
+  // 이메일 수정
+
+  // 비밀번호 수정
+
+  // 프로필 이미지 수정
+
+  // 권한 수정
 
 
 }
