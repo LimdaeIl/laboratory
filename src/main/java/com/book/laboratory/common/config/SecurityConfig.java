@@ -41,7 +41,12 @@ public class SecurityConfig {
         .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
     http
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/users/login", "/users/signup", "/users/send/email-code", "/users/verify/email-code").permitAll()
+            .requestMatchers(
+                "/users/login", "/users/signup",
+                "/users/send/email-code", "/users/verify/email-code",
+                "/swagger-ui/**", "/v3/api-docs/**","/swagger-resources/**"
+                )
+            .permitAll()
             .anyRequest().authenticated());
 
     http
