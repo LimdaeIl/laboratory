@@ -3,6 +3,8 @@ package com.book.laboratory.user.presentation;
 import com.book.laboratory.common.security.CustomUserDetails;
 import com.book.laboratory.user.application.UserService;
 import com.book.laboratory.user.application.dto.condition.UserSearchCondition;
+import com.book.laboratory.user.application.dto.request.EmailCodeSendRequestDto;
+import com.book.laboratory.user.application.dto.request.EmailCodeVerifyRequestDto;
 import com.book.laboratory.user.application.dto.request.LoginRequestDto;
 import com.book.laboratory.user.application.dto.request.SignupRequestDto;
 import com.book.laboratory.user.application.dto.response.GenerateTokenResponseDto;
@@ -103,7 +105,9 @@ public class UserController {
 
     response.setHeader(HttpHeaders.SET_COOKIE, deleteCookie.toString());
 
-    return ResponseEntity.noContent().build();
+    return ResponseEntity
+        .noContent()
+        .build();
   }
 
   @PreAuthorize("hasAnyRole('USER')")
@@ -123,11 +127,28 @@ public class UserController {
         .status(HttpStatus.OK)
         .body(responseDtos);
   }
-  // 이메일 인증
 
-  
+  @PostMapping("/send/email-code")
+  public ResponseEntity<Void> emailCodeSend(
+      @RequestBody @Valid EmailCodeSendRequestDto request
+  ) {
+    userService.emailCodeSend(request);
 
-  // 이메일 수정
+    return ResponseEntity
+        .noContent()
+        .build();
+  }
+
+  @PostMapping("/verify/email-code")
+  public ResponseEntity<Void> verifyEmailCode(
+      @RequestBody @Valid EmailCodeVerifyRequestDto request
+  ) {
+    userService.verifyEmailCode(request);
+
+    return ResponseEntity
+        .noContent()
+        .build();
+  }
 
   // 비밀번호 수정
 

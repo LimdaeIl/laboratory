@@ -6,6 +6,8 @@ import com.book.laboratory.common.redis.RedisKeySupport;
 import com.book.laboratory.common.redis.RedisService;
 import com.book.laboratory.common.security.CustomUserDetails;
 import com.book.laboratory.user.application.dto.condition.UserSearchCondition;
+import com.book.laboratory.user.application.dto.request.EmailCodeSendRequestDto;
+import com.book.laboratory.user.application.dto.request.EmailCodeVerifyRequestDto;
 import com.book.laboratory.user.application.dto.request.LoginRequestDto;
 import com.book.laboratory.user.application.dto.request.SignupRequestDto;
 import com.book.laboratory.user.application.dto.response.GenerateTokenResponseDto;
@@ -21,11 +23,15 @@ import com.book.laboratory.user.domain.UserQueryRepository;
 import com.book.laboratory.user.domain.UserRepository;
 import com.book.laboratory.user.domain.UserRole;
 import java.time.Duration;
+import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseCookie;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +46,10 @@ public class UserServiceImpl implements UserService {
   private final JwtService jwtService;
   private final RedisService redisService;
   private final UserQueryRepository userQueryRepository;
+  private final JavaMailSender mailSender;
+
+  @Value("${spring.mail.username}")
+  private String FromEmail;
 
 
   private void existsUserByEmail(String email) {
@@ -203,5 +213,48 @@ public class UserServiceImpl implements UserService {
   @Override
   public Page<GetUsersResponseDto> getUsers(UserSearchCondition condition, Pageable page) {
     return userQueryRepository.findUsersByCondition(condition, page);
+  }
+
+  @Override
+  public void emailCodeSend(EmailCodeSendRequestDto request) {
+    existsUserByEmail(request.email());
+
+    // Redis 등에 저장 (TTL: 예 3분)
+    String key = "EC:" + request.email();
+    String value = generateRandomNumber().toString();
+    Duration timeout = Duration.ofMinutes(3);
+
+    redisService.set(key, value, timeout);
+
+    // 이메일 전송
+    SimpleMailMessage message = new SimpleMailMessage();
+
+    message.setTo(request.email());
+    message.setFrom(FromEmail);
+    message.setSubject("[POKO] 이메일 인증 코드");
+    message.setText("인증 코드: " + value + "\n3분 이내에 입력해 주세요.");
+    mailSender.send(message);
+
+  }
+
+  @Override
+  public void verifyEmailCode(EmailCodeVerifyRequestDto request) {
+    String key = "EC:" + request.email();
+
+    String correctCode = redisService.get(key, String.class);
+    String code = request.code();
+
+    if (!correctCode.equals(code) || correctCode.length() != 6 || correctCode.isBlank()) {
+      throw new CustomException(UserErrorCode.FAILED_VERIFY_EMAIL);
+    }
+  }
+
+  private Integer generateRandomNumber() {
+    Random random = new Random();
+    StringBuilder randomNumber = new StringBuilder();
+    for (int i = 0; i < 6; i++) {
+      randomNumber.append(random.nextInt(10));
+    }
+    return Integer.parseInt(randomNumber.toString());
   }
 }
