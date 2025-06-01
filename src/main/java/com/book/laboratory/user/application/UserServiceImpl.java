@@ -11,6 +11,9 @@ import com.book.laboratory.user.application.dto.request.EmailCodeVerifyRequestDt
 import com.book.laboratory.user.application.dto.request.LoginRequestDto;
 import com.book.laboratory.user.application.dto.request.SignupRequestDto;
 import com.book.laboratory.user.application.dto.request.UpdatePasswordRequestDto;
+import com.book.laboratory.user.application.dto.request.UpdateUserEmailRequestDto;
+import com.book.laboratory.user.application.dto.request.UpdateUserRoleResponseDto;
+import com.book.laboratory.user.application.dto.request.updateUserInfoRequestDto;
 import com.book.laboratory.user.application.dto.response.GenerateTokenResponseDto;
 import com.book.laboratory.user.application.dto.response.GetMyInfoResponseDto;
 import com.book.laboratory.user.application.dto.response.GetUsersResponseDto;
@@ -18,6 +21,9 @@ import com.book.laboratory.user.application.dto.response.LoginResponseDto;
 import com.book.laboratory.user.application.dto.response.LoginResponseWithCookieDto;
 import com.book.laboratory.user.application.dto.response.LogoutResponseDto;
 import com.book.laboratory.user.application.dto.response.SignupResponseDto;
+import com.book.laboratory.user.application.dto.response.UpdateUserEmailResponseDto;
+import com.book.laboratory.user.application.dto.response.UpdateUserInfoResponseDto;
+import com.book.laboratory.user.application.dto.response.UpdateUserRoleRequestDto;
 import com.book.laboratory.user.domain.User;
 import com.book.laboratory.user.domain.UserErrorCode;
 import com.book.laboratory.user.domain.UserQueryRepository;
@@ -76,6 +82,15 @@ public class UserServiceImpl implements UserService {
     if (!isAdmin && !isSelf) {
       throw new CustomException(UserErrorCode.USER_GET_FORBIDDEN);
     }
+  }
+
+  private Integer generateRandomNumber() {
+    Random random = new Random();
+    StringBuilder randomNumber = new StringBuilder();
+    for (int i = 0; i < 6; i++) {
+      randomNumber.append(random.nextInt(10));
+    }
+    return Integer.parseInt(randomNumber.toString());
   }
 
 
@@ -256,11 +271,17 @@ public class UserServiceImpl implements UserService {
 
   @Transactional
   @Override
-  public void updatePassword(UpdatePasswordRequestDto requestDto, CustomUserDetails userDetails) {
-    User userById = findUserById(userDetails.id());
+  public void updatePassword(UpdatePasswordRequestDto requestDto, CustomUserDetails userDetails, Long id) {
+    if (!userDetails.role().isAdmin() && !userDetails.id().equals(id)) {
+      throw new CustomException(UserErrorCode.INVALID_PATCH_USER);
+    }
 
-    if (!passwordEncoder.matches(requestDto.password(), userById.getPassword())) {
-      throw new CustomException(UserErrorCode.INVALID_PASSWORD);
+    User userById = findUserById(id);
+
+    if (userDetails.id().equals(id)) {
+      if (!passwordEncoder.matches(requestDto.password(), userById.getPassword())) {
+        throw new CustomException(UserErrorCode.INVALID_PASSWORD);
+      }
     }
 
     if (passwordEncoder.matches(requestDto.newPassword(), userById.getPassword())) {
@@ -271,12 +292,67 @@ public class UserServiceImpl implements UserService {
     userById.updatePassword(encodedNewPassword);
   }
 
-  private Integer generateRandomNumber() {
-    Random random = new Random();
-    StringBuilder randomNumber = new StringBuilder();
-    for (int i = 0; i < 6; i++) {
-      randomNumber.append(random.nextInt(10));
+  @Transactional
+  @Override
+  public UpdateUserInfoResponseDto updateUserInfo(updateUserInfoRequestDto requestDto,
+                                                  CustomUserDetails userDetails,
+                                                  Long id) {
+    if (!userDetails.role().isAdmin() && !userDetails.id().equals(id)) {
+      throw new CustomException(UserErrorCode.INVALID_PATCH_USER);
     }
-    return Integer.parseInt(randomNumber.toString());
+
+    if (requestDto.newName() == null || requestDto.newName().isBlank()) {
+      throw new CustomException(UserErrorCode.INVALID_USER_NAME);
+    }
+
+    User userById = findUserById(id);
+
+    userById.updateName(requestDto.newName());
+    userById.updateProfileImageUrl(requestDto.newProfileImageUrl() != null ? requestDto.newProfileImageUrl() : null);
+
+    return UpdateUserInfoResponseDto.from(userById);
   }
+
+  @Transactional
+  @Override
+  public UpdateUserRoleResponseDto updateUserRole(UpdateUserRoleRequestDto requestDto,
+                                                  CustomUserDetails userDetails,
+                                                  Long id) {
+
+    if (!userDetails.role().isAdmin() && !userDetails.id().equals(id)) {
+      throw new CustomException(UserErrorCode.INVALID_PATCH_USER);
+    }
+
+    if (requestDto.newUserRole() == null) {
+      throw new CustomException(UserErrorCode.INVALID_USER_ROLE);
+    }
+
+    User userById = findUserById(id);
+    userById.updateUserRole(requestDto.newUserRole());
+
+    return UpdateUserRoleResponseDto.from(userById);
+  }
+
+  @Transactional
+  @Override
+  public UpdateUserEmailResponseDto updateEmail(UpdateUserEmailRequestDto requestDto,
+                                                CustomUserDetails userDetails,
+                                                Long id) {
+
+    if (!userDetails.role().isAdmin() && !userDetails.id().equals(id)) {
+      throw new CustomException(UserErrorCode.INVALID_PATCH_USER);
+    }
+
+    if (requestDto.newEmail() == null) {
+      throw new CustomException(UserErrorCode.INVALID_PATCH_EMAIL);
+    }
+
+    User userById = findUserById(id);
+    userById.updateUserEmail(requestDto.newEmail());
+
+    return UpdateUserEmailResponseDto.from(userById);
+  }
+
+
+
 }
