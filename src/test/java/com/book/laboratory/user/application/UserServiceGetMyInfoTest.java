@@ -83,7 +83,7 @@ class UserServiceGetMyInfoTest {
   void ShouldThrowExceptionWhenRegularUserRequestsOtherUserInfo() {
     // given
     User otherUser = createUser(otherUserId, "other@example.com");
-    given(userRepository.findUserById(otherUserId)).willReturn(Optional.of(otherUser));
+//    given(userRepository.findUserById(otherUserId)).willReturn(Optional.of(otherUser));
 
     // when & then
     assertThatThrownBy(() -> userService.getMyInfo(regularUser, otherUserId))
@@ -95,7 +95,7 @@ class UserServiceGetMyInfoTest {
   @Test
   void ShouldThrowExceptionWhenUserNotFound() {
     // given
-    given(userRepository.findUserById(999L)).willReturn(Optional.empty());
+//    given(userRepository.findUserById(999L)).willReturn(Optional.empty());
 
     // when & then
     assertThatThrownBy(() -> userService.getMyInfo(regularUser, 999L))
