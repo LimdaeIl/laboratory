@@ -33,7 +33,8 @@ public enum UserErrorCode implements ErrorCode {
   INVALID_PATCH_USER(HttpStatus.FORBIDDEN.value(), "자신의 정보만 수정할 수 있습니다.", HttpStatus.FORBIDDEN),
   INVALID_PATCH_PASSWORD(HttpStatus.UNAUTHORIZED.value(), "비밀번호가 올바르지 않습니다.", HttpStatus.UNAUTHORIZED),
   DUPLICATE_PATCH_PASSWORD(HttpStatus.BAD_REQUEST.value(), "이전 비밀번호와 동일합니다.", HttpStatus.BAD_REQUEST),
-
+  INVALID_USER_NAME(HttpStatus.BAD_REQUEST.value(), "이름이 유효하지 않습니다.", HttpStatus.BAD_REQUEST),
+  INVALID_USER_ROLE(HttpStatus.BAD_REQUEST.value(), "권한이 유효하지 않습니다.", HttpStatus.BAD_REQUEST),
 
   // ────────────── [로그인 관련] ──────────────
   INVALID_LOGIN(HttpStatus.BAD_REQUEST.value(), "아이디 또는 비밀번호가 올바르지 않습니다.", HttpStatus.BAD_REQUEST),

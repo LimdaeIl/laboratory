@@ -8,6 +8,9 @@ import com.book.laboratory.user.application.dto.request.EmailCodeVerifyRequestDt
 import com.book.laboratory.user.application.dto.request.LoginRequestDto;
 import com.book.laboratory.user.application.dto.request.SignupRequestDto;
 import com.book.laboratory.user.application.dto.request.UpdatePasswordRequestDto;
+import com.book.laboratory.user.application.dto.request.UpdateUserEmailRequestDto;
+import com.book.laboratory.user.application.dto.request.UpdateUserRoleResponseDto;
+import com.book.laboratory.user.application.dto.request.updateUserInfoRequestDto;
 import com.book.laboratory.user.application.dto.response.GenerateTokenResponseDto;
 import com.book.laboratory.user.application.dto.response.GetMyInfoResponseDto;
 import com.book.laboratory.user.application.dto.response.GetUsersResponseDto;
@@ -15,9 +18,13 @@ import com.book.laboratory.user.application.dto.response.LoginResponseDto;
 import com.book.laboratory.user.application.dto.response.LoginResponseWithCookieDto;
 import com.book.laboratory.user.application.dto.response.LogoutResponseDto;
 import com.book.laboratory.user.application.dto.response.SignupResponseDto;
+import com.book.laboratory.user.application.dto.response.UpdateUserEmailResponseDto;
+import com.book.laboratory.user.application.dto.response.UpdateUserInfoResponseDto;
+import com.book.laboratory.user.application.dto.response.UpdateUserRoleRequestDto;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,12 +39,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RequestMapping("/users")
 @RequiredArgsConstructor
 @RestController
@@ -152,21 +161,59 @@ public class UserController {
   }
 
   @PreAuthorize("hasAnyRole('ADMIN', 'STORE', 'USER')")
-  @PostMapping("/password")
+  @PatchMapping("/{id}/password")
   public ResponseEntity<Void> updatePassword(
       @RequestBody @Valid UpdatePasswordRequestDto requestDto,
-      @AuthenticationPrincipal CustomUserDetails userDetails
+      @AuthenticationPrincipal CustomUserDetails userDetails,
+      @PathVariable Long id
   ) {
-    userService.updatePassword(requestDto, userDetails);
+    userService.updatePassword(requestDto, userDetails, id);
 
     return ResponseEntity
         .noContent()
         .build();
   }
 
-  // 프로필 이미지 수정
+  @PreAuthorize("hasAnyRole('ADMIN', 'STORE', 'USER')")
+  @PatchMapping("/{id}/update")
+  public ResponseEntity<UpdateUserInfoResponseDto> updateUserInfo(
+      @RequestBody @Valid updateUserInfoRequestDto requestDto,
+      @AuthenticationPrincipal CustomUserDetails userDetails,
+      @PathVariable Long id
+  ) {
+    UpdateUserInfoResponseDto responseDto = userService.updateUserInfo(requestDto, userDetails, id);
 
-  // 권한 수정
+    return ResponseEntity
+        .status(HttpStatus.OK)
+        .body(responseDto);
+  }
 
+  @PreAuthorize("hasAnyRole('ADMIN')")
+  @PatchMapping("/{id}/role")
+  public ResponseEntity<UpdateUserRoleResponseDto> updateUserRole(
+      @RequestBody @Valid UpdateUserRoleRequestDto requestDto,
+      @AuthenticationPrincipal CustomUserDetails userDetails,
+      @PathVariable Long id
+  ) {
+    UpdateUserRoleResponseDto responseDto = userService.updateUserRole(requestDto, userDetails, id);
 
+    return ResponseEntity
+        .status(HttpStatus.OK)
+        .body(responseDto);
+  }
+
+  @PreAuthorize("hasAnyRole('ADMIN', 'STORE', 'USER')")
+  @PostMapping("/{id}/email")
+  public ResponseEntity<UpdateUserEmailResponseDto> updateEmail(
+      @RequestBody @Valid UpdateUserEmailRequestDto requestDto,
+      @AuthenticationPrincipal CustomUserDetails userDetails,
+      @PathVariable Long id
+  ) {
+    UpdateUserEmailResponseDto responseDto = userService.updateEmail(requestDto, userDetails, id);
+
+    return ResponseEntity
+        .status(HttpStatus.OK)
+        .body(responseDto);
+  }
 }
+

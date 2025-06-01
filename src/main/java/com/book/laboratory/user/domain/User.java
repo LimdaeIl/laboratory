@@ -29,7 +29,7 @@ public class User extends BaseEntity {
   @Column(name = "id", nullable = false, updatable = false, unique = true)
   private Long id;
 
-  @Column(name = "name", nullable = false, length = 50)
+  @Column(name = "name", nullable = false, length = 10)
   private String name;
 
   @Column(name = "email", nullable = false, unique = true, length = 100)
@@ -58,8 +58,36 @@ public class User extends BaseEntity {
     if (newPassword == null || newPassword.isBlank()) {
       throw new CustomException(UserErrorCode.INVALID_PASSWORD);
     }
-
     this.password = newPassword;
+  }
+
+  public void updateProfileImageUrl(String newProfileImageUrl) {
+    if (newProfileImageUrl == null || newProfileImageUrl.isBlank()) {
+      newProfileImageUrl = null;
+    }
+    this.profileImageUrl = newProfileImageUrl;
+  }
+
+  public void updateName(String newName) {
+    if (newName == null || newName.isBlank()) {
+      throw new CustomException(UserErrorCode.INVALID_USER_NAME);
+    }
+    this.name = newName;
+  }
+
+  public void updateUserRole(UserRole newUserRole) {
+    if (newUserRole == null) {
+      throw new CustomException(UserErrorCode.INVALID_USER_ROLE);
+    }
+    this.userRole = newUserRole;
+  }
+
+  public void updateUserEmail(String newEmail) {
+    if (newEmail == null || newEmail.isBlank()) {
+      throw new CustomException(UserErrorCode.INVALID_PATCH_EMAIL);
+    }
+
+    this.email = newEmail;
   }
 
 }

@@ -11,4 +11,17 @@ public enum UserRole {
   ROLE_USER("회원");
 
   private final String name;
+
+
+  public boolean isUser() {
+    return this == ROLE_USER;
+  }
+
+  public boolean isStore() {
+    return this == ROLE_STORE;
+  }
+
+  public boolean isAdmin() {
+    return this == ROLE_ADMIN;
+  }
 }
