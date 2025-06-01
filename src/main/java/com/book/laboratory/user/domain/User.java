@@ -1,6 +1,7 @@
 package com.book.laboratory.user.domain;
 
 import com.book.laboratory.common.audit.BaseEntity;
+import com.book.laboratory.common.exception.CustomException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -51,5 +52,14 @@ public class User extends BaseEntity {
 
   @Column(name = "social_id", length = 200)
   private String socialId;
+
+
+  public void updatePassword(String newPassword) {
+    if (newPassword == null || newPassword.isBlank()) {
+      throw new CustomException(UserErrorCode.INVALID_PASSWORD);
+    }
+
+    this.password = newPassword;
+  }
 
 }
