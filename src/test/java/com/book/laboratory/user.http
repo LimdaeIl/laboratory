@@ -72,3 +72,19 @@ GET http://localhost:10000/users
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwic29jaWFsVHlwZSI6Ik5PTkUiLCJ1c2VySWQiOjEsImp0aSI6IjljM2Q2ZjgwLTMxOGItNDEyMy05OTMzLTBhZjhjOGJiNDM0YyIsInN1YiI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzQ4NzQwOTk5LCJleHAiOjE3NDg3NDQ1OTl9.n9uWsSG1rT11rS2SiUXhLUxPS26r8W6E8WivKdZscJtCOwbVbJEX5Aix32IHoZRIbjPpS2TRw_PrdVMReWun5Q
 
+### 이메일 인증 코드 전송
+POST http://localhost:10000/users/send/email-code
+Content-Type: application/json
+
+{
+  "email": "optional94@naver.com"
+}
+
+### 이메일 코드 인증
+POST http://localhost:10000/users/verify/email-code
+Content-Type: application/json
+
+{
+  "email": "optional94@naver.com",
+  "code": "802817"
+}

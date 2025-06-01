@@ -23,6 +23,8 @@ public enum UserErrorCode implements ErrorCode {
   DUPLICATE_PHONE(HttpStatus.CONFLICT.value(), "휴대전화번호: 이미 존재하는 휴대전화번호입니다.", HttpStatus.CONFLICT),
   DUPLICATE_EMAIL(HttpStatus.CONFLICT.value(), "이메일: 이미 존재하는 이메일입니다.", HttpStatus.CONFLICT),
   USER_SIGNUP_FAILED(HttpStatus.INTERNAL_SERVER_ERROR.value(), "회원가입에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
+  FAILED_VERIFY_EMAIL(HttpStatus.BAD_REQUEST.value(), "이메일: 이메일 인증에 실팼습니다.", HttpStatus.BAD_REQUEST),
+
 
   // ────────────── [회원 정보 수정 관련] ──────────────
   USER_UPDATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR.value(), "회원 정보 수정에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR),
