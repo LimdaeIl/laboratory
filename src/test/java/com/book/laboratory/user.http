@@ -70,7 +70,7 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwic29jaWFsV
 ### 회원 동적 조회
 GET http://localhost:10000/users
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwic29jaWFsVHlwZSI6Ik5PTkUiLCJ1c2VySWQiOjEsImp0aSI6IjljM2Q2ZjgwLTMxOGItNDEyMy05OTMzLTBhZjhjOGJiNDM0YyIsInN1YiI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzQ4NzQwOTk5LCJleHAiOjE3NDg3NDQ1OTl9.n9uWsSG1rT11rS2SiUXhLUxPS26r8W6E8WivKdZscJtCOwbVbJEX5Aix32IHoZRIbjPpS2TRw_PrdVMReWun5Q
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwic29jaWFsVHlwZSI6Ik5PTkUiLCJ1c2VySWQiOjEsImp0aSI6IjNkYzdjZDA1LWU5MTQtNGI4YS1hNTgyLTQ0ZDhiMzNkYmExOCIsInN1YiI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzQ4NzgxMTMyLCJleHAiOjE3NDg3ODQ3MzJ9.NdCwzC0McSZ9ebCR_ir29GnGcemGaKzCgcK6OTwTQbQJuCx7mkHkUiQfjn4mIITRZDjSclCf9BAz7J-E4XcJHQ
 
 ### 이메일 인증 코드 전송
 POST http://localhost:10000/users/send/email-code
@@ -119,10 +119,19 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwic29jaWFsV
 }
 
 ### 회원 이메일 수정
-POST http://localhost:${SERVER_PORT}/users/1/email
+POST http://localhost:10000/users/1/email
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwic29jaWFsVHlwZSI6Ik5PTkUiLCJ1c2VySWQiOjEsImp0aSI6IjkyMDU1Y2Q4LWNjOGQtNGUzYy05NmMxLTI0ZDIxMjhiZTlmYSIsInN1YiI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzQ4NzU5NjMyLCJleHAiOjE3NDg3NjMyMzJ9.8D19a_UmfEt4_3sFob1gSHyy8mxd0Isu1JDtO8ZaspGbSoq8wfhhPoVfjrwVyPOpnlXb3o6Zx836gToCUOFAFA
 
 {
   "newEmail": ""
 }
+
+### 회원 소프트 삭제
+DELETE http://localhost:10000/users/1/delete
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwic29jaWFsVHlwZSI6Ik5PTkUiLCJ1c2VySWQiOjEsImp0aSI6IjNkYzdjZDA1LWU5MTQtNGI4YS1hNTgyLTQ0ZDhiMzNkYmExOCIsInN1YiI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzQ4NzgxMTMyLCJleHAiOjE3NDg3ODQ3MzJ9.NdCwzC0McSZ9ebCR_ir29GnGcemGaKzCgcK6OTwTQbQJuCx7mkHkUiQfjn4mIITRZDjSclCf9BAz7J-E4XcJHQ
+
+{}
+
+
