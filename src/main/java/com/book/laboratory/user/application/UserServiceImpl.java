@@ -240,11 +240,15 @@ public class UserServiceImpl implements UserService {
   @Override
   public void verifyEmailCode(EmailCodeVerifyRequestDto request) {
     String key = "EC:" + request.email();
-
     String correctCode = redisService.get(key, String.class);
+
+    if (correctCode == null || correctCode.isBlank()) {
+      throw new CustomException(UserErrorCode.FAILED_VERIFY_EMAIL);
+    }
+
     String code = request.code();
 
-    if (!correctCode.equals(code) || correctCode.length() != 6 || correctCode.isBlank()) {
+    if (!correctCode.equals(code) || correctCode.length() != 6) {
       throw new CustomException(UserErrorCode.FAILED_VERIFY_EMAIL);
     }
   }
