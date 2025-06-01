@@ -16,10 +16,10 @@ import com.book.laboratory.user.application.dto.response.GetUsersResponseDto;
 import com.book.laboratory.user.application.dto.response.LoginResponseWithCookieDto;
 import com.book.laboratory.user.application.dto.response.LogoutResponseDto;
 import com.book.laboratory.user.application.dto.response.SignupResponseDto;
+import com.book.laboratory.user.application.dto.response.SoftDeleteResponseDto;
 import com.book.laboratory.user.application.dto.response.UpdateUserEmailResponseDto;
 import com.book.laboratory.user.application.dto.response.UpdateUserInfoResponseDto;
 import com.book.laboratory.user.application.dto.response.UpdateUserRoleRequestDto;
-import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -48,4 +48,5 @@ public interface UserService {
 
   UpdateUserEmailResponseDto updateEmail(UpdateUserEmailRequestDto requestDto, CustomUserDetails userDetails, Long id);
 
+  SoftDeleteResponseDto softDeleteUser(CustomUserDetails userDetails, Long id);
 }

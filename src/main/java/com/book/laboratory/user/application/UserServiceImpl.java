@@ -21,6 +21,7 @@ import com.book.laboratory.user.application.dto.response.LoginResponseDto;
 import com.book.laboratory.user.application.dto.response.LoginResponseWithCookieDto;
 import com.book.laboratory.user.application.dto.response.LogoutResponseDto;
 import com.book.laboratory.user.application.dto.response.SignupResponseDto;
+import com.book.laboratory.user.application.dto.response.SoftDeleteResponseDto;
 import com.book.laboratory.user.application.dto.response.UpdateUserEmailResponseDto;
 import com.book.laboratory.user.application.dto.response.UpdateUserInfoResponseDto;
 import com.book.laboratory.user.application.dto.response.UpdateUserRoleRequestDto;
@@ -353,6 +354,18 @@ public class UserServiceImpl implements UserService {
     return UpdateUserEmailResponseDto.from(userById);
   }
 
+  @Transactional
+  @Override
+  public SoftDeleteResponseDto softDeleteUser(CustomUserDetails userDetails, Long id) {
+    if (!userDetails.role().isAdmin() && !userDetails.id().equals(id)) {
+      throw new CustomException(UserErrorCode.INVALID_PATCH_USER);
+    }
+
+    User userById = findUserById(id);
+    userById.markDeleted(userById.getId());
+
+    return SoftDeleteResponseDto.from(userById);
+  }
 
 
 }

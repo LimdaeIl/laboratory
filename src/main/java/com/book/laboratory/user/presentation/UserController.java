@@ -18,6 +18,7 @@ import com.book.laboratory.user.application.dto.response.LoginResponseDto;
 import com.book.laboratory.user.application.dto.response.LoginResponseWithCookieDto;
 import com.book.laboratory.user.application.dto.response.LogoutResponseDto;
 import com.book.laboratory.user.application.dto.response.SignupResponseDto;
+import com.book.laboratory.user.application.dto.response.SoftDeleteResponseDto;
 import com.book.laboratory.user.application.dto.response.UpdateUserEmailResponseDto;
 import com.book.laboratory.user.application.dto.response.UpdateUserInfoResponseDto;
 import com.book.laboratory.user.application.dto.response.UpdateUserRoleRequestDto;
@@ -38,6 +39,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -215,5 +217,17 @@ public class UserController {
         .status(HttpStatus.OK)
         .body(responseDto);
   }
-}
 
+  @PreAuthorize("hasAnyRole('ADMIN', 'STORE', 'USER')")
+  @DeleteMapping("/{id}/delete")
+  public ResponseEntity<SoftDeleteResponseDto> softDeleteUser(
+      @AuthenticationPrincipal CustomUserDetails userDetails,
+      @PathVariable Long id
+  ) {
+    SoftDeleteResponseDto softDeleteResponseDto = userService.softDeleteUser(userDetails, id);
+
+    return ResponseEntity
+        .status(HttpStatus.OK)
+        .body(softDeleteResponseDto);
+  }
+}
