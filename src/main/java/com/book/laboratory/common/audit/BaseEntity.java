@@ -3,6 +3,7 @@ package com.book.laboratory.common.audit;
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
+import jakarta.persistence.PrePersist;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -22,21 +23,25 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public abstract class BaseEntity {
 
   @CreatedDate
-  @Column(updatable = false)
+  @Column(name = "created_at", updatable = false)
   protected LocalDateTime createdAt;
 
   @CreatedBy
-  @Column(updatable = false)
+  @Column(name = "created_by", updatable = false)
   protected Long createdBy;
 
   @LastModifiedDate
+  @Column(name = "modified_at")
   protected LocalDateTime modifiedAt;
 
   @LastModifiedBy
+  @Column(name = "modified_by")
   protected Long modifiedBy;
 
+  @Column(name = "deleted_at")
   protected LocalDateTime deletedAt;
 
+  @Column(name = "deleted_by")
   protected Long deletedBy;
 
   public void markDeleted(Long userId) {
