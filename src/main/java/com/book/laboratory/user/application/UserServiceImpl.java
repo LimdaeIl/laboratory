@@ -10,6 +10,7 @@ import com.book.laboratory.user.application.dto.request.EmailCodeSendRequestDto;
 import com.book.laboratory.user.application.dto.request.EmailCodeVerifyRequestDto;
 import com.book.laboratory.user.application.dto.request.LoginRequestDto;
 import com.book.laboratory.user.application.dto.request.SignupRequestDto;
+import com.book.laboratory.user.application.dto.request.UpdatePasswordRequestDto;
 import com.book.laboratory.user.application.dto.response.GenerateTokenResponseDto;
 import com.book.laboratory.user.application.dto.response.GetMyInfoResponseDto;
 import com.book.laboratory.user.application.dto.response.GetUsersResponseDto;
@@ -251,6 +252,19 @@ public class UserServiceImpl implements UserService {
     if (!correctCode.equals(code) || correctCode.length() != 6) {
       throw new CustomException(UserErrorCode.FAILED_VERIFY_EMAIL);
     }
+  }
+
+  @Transactional
+  @Override
+  public void updatePassword(UpdatePasswordRequestDto requestDto, CustomUserDetails userDetails) {
+    User userById = findUserById(userDetails.id());
+
+    if (!passwordEncoder.matches(requestDto.password(), userById.getPassword())) {
+      throw new CustomException(UserErrorCode.INVALID_PASSWORD);
+    }
+
+    String encodedNewPassword = passwordEncoder.encode(requestDto.newPassword());
+    userById.updatePassword(encodedNewPassword);
   }
 
   private Integer generateRandomNumber() {

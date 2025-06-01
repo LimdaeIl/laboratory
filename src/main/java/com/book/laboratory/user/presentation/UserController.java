@@ -7,6 +7,7 @@ import com.book.laboratory.user.application.dto.request.EmailCodeSendRequestDto;
 import com.book.laboratory.user.application.dto.request.EmailCodeVerifyRequestDto;
 import com.book.laboratory.user.application.dto.request.LoginRequestDto;
 import com.book.laboratory.user.application.dto.request.SignupRequestDto;
+import com.book.laboratory.user.application.dto.request.UpdatePasswordRequestDto;
 import com.book.laboratory.user.application.dto.response.GenerateTokenResponseDto;
 import com.book.laboratory.user.application.dto.response.GetMyInfoResponseDto;
 import com.book.laboratory.user.application.dto.response.GetUsersResponseDto;
@@ -150,7 +151,17 @@ public class UserController {
         .build();
   }
 
-  // 비밀번호 수정
+  @PostMapping("/password")
+  public ResponseEntity<Void> updatePassword(
+      @RequestBody @Valid UpdatePasswordRequestDto requestDto,
+      @AuthenticationPrincipal CustomUserDetails userDetails
+  ) {
+    userService.updatePassword(requestDto, userDetails);
+
+    return ResponseEntity
+        .noContent()
+        .build();
+  }
 
   // 프로필 이미지 수정
 
