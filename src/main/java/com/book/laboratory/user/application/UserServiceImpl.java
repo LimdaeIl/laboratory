@@ -5,21 +5,26 @@ import com.book.laboratory.common.jwt.JwtService;
 import com.book.laboratory.common.redis.RedisKeySupport;
 import com.book.laboratory.common.redis.RedisService;
 import com.book.laboratory.common.security.CustomUserDetails;
+import com.book.laboratory.user.application.dto.condition.UserSearchCondition;
 import com.book.laboratory.user.application.dto.request.LoginRequestDto;
 import com.book.laboratory.user.application.dto.request.SignupRequestDto;
 import com.book.laboratory.user.application.dto.response.GenerateTokenResponseDto;
 import com.book.laboratory.user.application.dto.response.GetMyInfoResponseDto;
+import com.book.laboratory.user.application.dto.response.GetUsersResponseDto;
 import com.book.laboratory.user.application.dto.response.LoginResponseDto;
 import com.book.laboratory.user.application.dto.response.LoginResponseWithCookieDto;
 import com.book.laboratory.user.application.dto.response.LogoutResponseDto;
 import com.book.laboratory.user.application.dto.response.SignupResponseDto;
 import com.book.laboratory.user.domain.User;
 import com.book.laboratory.user.domain.UserErrorCode;
+import com.book.laboratory.user.domain.UserQueryRepository;
 import com.book.laboratory.user.domain.UserRepository;
 import com.book.laboratory.user.domain.UserRole;
 import java.time.Duration;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -34,6 +39,8 @@ public class UserServiceImpl implements UserService {
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
   private final RedisService redisService;
+  private final UserQueryRepository userQueryRepository;
+
 
   private void existsUserByEmail(String email) {
     if (userRepository.existsUserByEmail(email)) {
@@ -190,5 +197,11 @@ public class UserServiceImpl implements UserService {
         .build();
 
     return new LogoutResponseDto(refreshCookie);
+  }
+
+  @Transactional(readOnly = true)
+  @Override
+  public Page<GetUsersResponseDto> getUsers(UserSearchCondition condition, Pageable page) {
+    return userQueryRepository.findUsersByCondition(condition, page);
   }
 }
