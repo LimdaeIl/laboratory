@@ -263,6 +263,10 @@ public class UserServiceImpl implements UserService {
       throw new CustomException(UserErrorCode.INVALID_PASSWORD);
     }
 
+    if (passwordEncoder.matches(requestDto.newPassword(), userById.getPassword())) {
+      throw new CustomException(UserErrorCode.DUPLICATE_PATCH_PASSWORD);
+    }
+
     String encodedNewPassword = passwordEncoder.encode(requestDto.newPassword());
     userById.updatePassword(encodedNewPassword);
   }
