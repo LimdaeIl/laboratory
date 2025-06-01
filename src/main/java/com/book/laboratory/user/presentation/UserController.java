@@ -151,6 +151,7 @@ public class UserController {
         .build();
   }
 
+  @PreAuthorize("hasAnyRole('ADMIN', 'STORE', 'USER')")
   @PostMapping("/password")
   public ResponseEntity<Void> updatePassword(
       @RequestBody @Valid UpdatePasswordRequestDto requestDto,
