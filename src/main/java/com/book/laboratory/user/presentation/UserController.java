@@ -22,6 +22,7 @@ import com.book.laboratory.user.application.dto.response.SoftDeleteResponseDto;
 import com.book.laboratory.user.application.dto.response.UpdateUserEmailResponseDto;
 import com.book.laboratory.user.application.dto.response.UpdateUserInfoResponseDto;
 import com.book.laboratory.user.application.dto.response.UpdateUserRoleRequestDto;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -49,14 +50,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@RequestMapping("/users")
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/users")
 @RestController
-public class UserController {
+public class UserController implements UserApiSwagger {
 
   private final UserService userService;
 
   @PostMapping("/signup")
+  @Override
   public ResponseEntity<SignupResponseDto> signup(
       @RequestBody @Valid SignupRequestDto requestDto) {
     SignupResponseDto responseDto = userService.signup(requestDto);
