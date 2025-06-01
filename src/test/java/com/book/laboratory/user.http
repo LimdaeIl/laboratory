@@ -89,10 +89,40 @@ Content-Type: application/json
   "code": "802817"
 }
 
-###
-POST http://localhost:10000/users/password
+
+### 비밀번호 수정
+PATCH http://localhost:10000/users/password
 Content-Type: application/json
 
 {
-  "newPassword": ""
+  "newPassword": "qweqwe123!"
+}
+
+
+### 회원 정보 수정
+PATCH http://localhost:10000/users/1/update
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwic29jaWFsVHlwZSI6Ik5PTkUiLCJ1c2VySWQiOjEsImp0aSI6IjdhNjg3ZDY1LWEzMzMtNDFhNi05NWY5LTU5MjYyNjk2MGRmZCIsInN1YiI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzQ4NzYxMjEzLCJleHAiOjE3NDg3NjQ4MTN9.3SGfyrP87c_l24ruUPSD2wcRS1W1Cet66ulMSXXdpkuWyK15ytigrWbzVPVpwZeNMQDgJY6FC0jn4uPLjU-3lg
+
+{
+  "newName": "업데이트 이름",
+  "newProfileImageUrl": ""
+}
+
+### 회원 권한 수정
+PATCH http://localhost:10000/users/1/role
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwic29jaWFsVHlwZSI6Ik5PTkUiLCJ1c2VySWQiOjEsImp0aSI6IjdhNjg3ZDY1LWEzMzMtNDFhNi05NWY5LTU5MjYyNjk2MGRmZCIsInN1YiI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzQ4NzYxMjEzLCJleHAiOjE3NDg3NjQ4MTN9.3SGfyrP87c_l24ruUPSD2wcRS1W1Cet66ulMSXXdpkuWyK15ytigrWbzVPVpwZeNMQDgJY6FC0jn4uPLjU-3lg
+
+{
+  "newUserRole": "ROLE_ADMIN"
+}
+
+### 회원 이메일 수정
+POST http://localhost:${SERVER_PORT}/users/1/email
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9VU0VSIiwic29jaWFsVHlwZSI6Ik5PTkUiLCJ1c2VySWQiOjEsImp0aSI6IjkyMDU1Y2Q4LWNjOGQtNGUzYy05NmMxLTI0ZDIxMjhiZTlmYSIsInN1YiI6InRlc3RAZ21haWwuY29tIiwiaWF0IjoxNzQ4NzU5NjMyLCJleHAiOjE3NDg3NjMyMzJ9.8D19a_UmfEt4_3sFob1gSHyy8mxd0Isu1JDtO8ZaspGbSoq8wfhhPoVfjrwVyPOpnlXb3o6Zx836gToCUOFAFA
+
+{
+  "newEmail": ""
 }
