@@ -27,6 +27,7 @@ public enum ProductErrorCode implements ErrorCode {
   INVALID_PRODUCT_NAME(HttpStatus.BAD_REQUEST.value(), "상품 이름은 1 글자 이상이어야 합니다.", HttpStatus.BAD_REQUEST),
   INVALID_PRODUCT_DESCRIPTION(HttpStatus.BAD_REQUEST.value(), "상품 내용은 1 글자 이상이어야 합니다.", HttpStatus.BAD_REQUEST),
   PRODUCT_UPDATE_FORBIDDEN(HttpStatus.FORBIDDEN.value(), "해당 상품 수정 권한이 없습니다.", HttpStatus.FORBIDDEN),
+  PRODUCT_DELETE_FORBIDDEN(HttpStatus.FORBIDDEN.value(), "해당 상품 삭제 권한이 없습니다.", HttpStatus.FORBIDDEN),
 
 
   // ────────────── [상품 상태 관련] ──────────────
