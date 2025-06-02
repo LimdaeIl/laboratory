@@ -2,17 +2,22 @@ package com.book.laboratory.product.application.service;
 
 import com.book.laboratory.common.exception.CustomException;
 import com.book.laboratory.common.security.CustomUserDetails;
+import com.book.laboratory.product.application.dto.condition.ProductSearchCondition;
 import com.book.laboratory.product.application.dto.requset.CreateProductRequestDto;
 import com.book.laboratory.product.application.dto.response.CreateProductResponseDto;
 import com.book.laboratory.product.application.dto.response.GetProductResponseDto;
+import com.book.laboratory.product.application.dto.response.GetProductsResponseDto;
 import com.book.laboratory.product.domain.entity.Product;
 import com.book.laboratory.product.domain.entity.ProductErrorCode;
+import com.book.laboratory.product.domain.repository.ProductQueryRepository;
 import com.book.laboratory.product.domain.repository.ProductRepository;
 import com.book.laboratory.user.domain.user.User;
 import com.book.laboratory.user.domain.user.UserErrorCode;
 import com.book.laboratory.user.domain.user.UserRepository;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +27,7 @@ public class ProductServiceImpl implements ProductService {
 
   private final ProductRepository productRepository;
   private final UserRepository userRepository;
+  private final ProductQueryRepository productQueryRepository;
 
   private Product findProductById(UUID id) {
     return productRepository.findById(id)
@@ -59,5 +65,12 @@ public class ProductServiceImpl implements ProductService {
         .orElseThrow(() -> new CustomException(UserErrorCode.USER_NOT_FOUND_BY_ID));
 
     return GetProductResponseDto.from(productById, user);
+  }
+
+  @Transactional
+  @Override
+  public Page<GetProductsResponseDto> getProducts(ProductSearchCondition condition, Pageable page) {
+    return productQueryRepository.findProductsByCondition(condition, page);
+
   }
 }
