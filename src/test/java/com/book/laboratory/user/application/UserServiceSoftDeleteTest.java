@@ -6,11 +6,12 @@ import static org.mockito.BDDMockito.given;
 
 import com.book.laboratory.common.exception.CustomException;
 import com.book.laboratory.common.security.CustomUserDetails;
-import com.book.laboratory.user.application.dto.response.SoftDeleteResponseDto;
-import com.book.laboratory.user.domain.User;
-import com.book.laboratory.user.domain.UserErrorCode;
-import com.book.laboratory.user.domain.UserRepository;
-import com.book.laboratory.user.domain.UserRole;
+import com.book.laboratory.user.application.user.UserServiceImpl;
+import com.book.laboratory.user.application.user.dto.response.SoftDeleteResponseDto;
+import com.book.laboratory.user.domain.user.User;
+import com.book.laboratory.user.domain.user.UserErrorCode;
+import com.book.laboratory.user.domain.user.UserRepository;
+import com.book.laboratory.user.domain.user.UserRole;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

@@ -4,7 +4,7 @@ package com.book.laboratory.user.application;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.book.laboratory.common.querydsl.QuerydslSortUtil;
-import com.book.laboratory.user.domain.User;
+import com.book.laboratory.user.domain.user.User;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import java.util.List;

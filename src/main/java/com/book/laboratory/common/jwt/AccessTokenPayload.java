@@ -1,7 +1,7 @@
 package com.book.laboratory.common.jwt;
 
-import com.book.laboratory.user.domain.SocialType;
-import com.book.laboratory.user.domain.UserRole;
+import com.book.laboratory.user.domain.user.SocialType;
+import com.book.laboratory.user.domain.user.UserRole;
 import java.util.Date;
 import lombok.Builder;
 

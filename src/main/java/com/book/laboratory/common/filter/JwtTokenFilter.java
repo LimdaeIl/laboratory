@@ -3,7 +3,7 @@ package com.book.laboratory.common.filter;
 
 import com.book.laboratory.common.jwt.JwtTokenProvider;
 import com.book.laboratory.common.security.CustomUserDetails;
-import com.book.laboratory.user.domain.UserRole;
+import com.book.laboratory.user.domain.user.UserRole;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
