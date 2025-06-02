@@ -49,14 +49,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
-@RequestMapping("/users")
 @RequiredArgsConstructor
+@RequestMapping("/api/v1/users")
 @RestController
-public class UserController {
+public class UserController implements UserApiSwagger {
 
   private final UserService userService;
 
   @PostMapping("/signup")
+  @Override
   public ResponseEntity<SignupResponseDto> signup(
       @RequestBody @Valid SignupRequestDto requestDto) {
     SignupResponseDto responseDto = userService.signup(requestDto);
