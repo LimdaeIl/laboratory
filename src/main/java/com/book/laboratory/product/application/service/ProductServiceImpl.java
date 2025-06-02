@@ -3,9 +3,10 @@ package com.book.laboratory.product.application.service;
 import com.book.laboratory.common.exception.CustomException;
 import com.book.laboratory.common.security.CustomUserDetails;
 import com.book.laboratory.product.application.dto.condition.ProductSearchCondition;
-import com.book.laboratory.product.application.dto.requset.CreateProductRequestDto;
-import com.book.laboratory.product.application.dto.requset.UpdateProductRequestDto;
+import com.book.laboratory.product.application.dto.request.CreateProductRequestDto;
+import com.book.laboratory.product.application.dto.request.UpdateProductRequestDto;
 import com.book.laboratory.product.application.dto.response.CreateProductResponseDto;
+import com.book.laboratory.product.application.dto.response.DeleteProductResponseDto;
 import com.book.laboratory.product.application.dto.response.GetProductResponseDto;
 import com.book.laboratory.product.application.dto.response.GetProductsResponseDto;
 import com.book.laboratory.product.application.dto.response.UpdateProductResponseDto;
@@ -89,14 +90,40 @@ public class ProductServiceImpl implements ProductService {
       throw new CustomException(ProductErrorCode.PRODUCT_UPDATE_FORBIDDEN);
     }
 
-    if (requestDto.name() != null) {product.changeNameTo(requestDto.name());}
-    if (requestDto.price() != null) {product.changePriceTo(requestDto.price());}
-    if (requestDto.quantity() != null) {product.changeQuantityTo(requestDto.quantity());}
-    if (requestDto.thumbnail() != null) {product.updateThumbnail(requestDto.thumbnail());}
-    if (requestDto.description() != null) {product.changeDescriptionTo(requestDto.description());}
-    if (requestDto.category() != null) {product.changeCategoryTo(requestDto.category());}
+    if (requestDto.name() != null) {
+      product.changeNameTo(requestDto.name());
+    }
+    if (requestDto.price() != null) {
+      product.changePriceTo(requestDto.price());
+    }
+    if (requestDto.quantity() != null) {
+      product.changeQuantityTo(requestDto.quantity());
+    }
+    if (requestDto.thumbnail() != null) {
+      product.updateThumbnail(requestDto.thumbnail());
+    }
+    if (requestDto.description() != null) {
+      product.changeDescriptionTo(requestDto.description());
+    }
+    if (requestDto.category() != null) {
+      product.changeCategoryTo(requestDto.category());
+    }
 
     return UpdateProductResponseDto.from(product);
+  }
+
+  @Transactional
+  @Override
+  public DeleteProductResponseDto deleteProduct(CustomUserDetails userDetails, UUID id) {
+    Product productById = findProductById(id);
+
+    if (!userDetails.role().equals(UserRole.ROLE_ADMIN) && !productById.getCreatedBy().equals(userDetails.id())) {
+      throw new CustomException(ProductErrorCode.PRODUCT_DELETE_FORBIDDEN);
+    }
+
+    productById.markDeleted(userDetails.id());
+
+    return DeleteProductResponseDto.from(productById);
   }
 
 

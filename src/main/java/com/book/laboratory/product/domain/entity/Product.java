@@ -73,7 +73,7 @@ public class Product extends BaseEntity {
       throw new CustomException(ProductErrorCode.INVALID_PRODUCT_QUANTITY);
     }
 
-    this.quantity += amount;
+    this.quantity = amount;
   }
 
   public void updateThumbnail(String newThumbnail) {
