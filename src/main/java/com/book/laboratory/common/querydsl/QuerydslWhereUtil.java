@@ -4,6 +4,7 @@ import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.BooleanPath;
 import com.querydsl.core.types.dsl.DateTimePath;
+import com.querydsl.core.types.dsl.NumberPath;
 import com.querydsl.core.types.dsl.SimpleExpression;
 import com.querydsl.core.types.dsl.StringPath;
 import java.time.LocalDateTime;
@@ -54,6 +55,21 @@ public class QuerydslWhereUtil {
   public static BooleanExpression betweenIfNotNull(DateTimePath<LocalDateTime> path,
                                                    LocalDateTime from,
                                                    LocalDateTime to) {
+    if (from != null && to != null) {
+      return path.between(from, to);
+    }
+    if (from != null) {
+      return path.goe(from);
+    }
+    if (to != null) {
+      return path.loe(to);
+    }
+    return null;
+  }
+
+  public static BooleanExpression betweenIfNotNull(NumberPath<Integer> path,
+                                                   Integer from,
+                                                   Integer to) {
     if (from != null && to != null) {
       return path.between(from, to);
     }
