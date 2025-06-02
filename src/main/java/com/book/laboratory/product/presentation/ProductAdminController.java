@@ -2,14 +2,19 @@ package com.book.laboratory.product.presentation;
 
 import com.book.laboratory.common.security.CustomUserDetails;
 import com.book.laboratory.product.application.dto.requset.CreateProductRequestDto;
+import com.book.laboratory.product.application.dto.requset.UpdateProductRequestDto;
 import com.book.laboratory.product.application.dto.response.CreateProductResponseDto;
+import com.book.laboratory.product.application.dto.response.UpdateProductResponseDto;
 import com.book.laboratory.product.application.service.ProductService;
 import jakarta.validation.Valid;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,5 +39,20 @@ public class ProductAdminController {
         .status(HttpStatus.CREATED)
         .body(responseDto);
   }
+
+  @PreAuthorize("hasAnyRole('ADMIN', 'STORE')")
+  @PatchMapping("/{id}")
+  public ResponseEntity<UpdateProductResponseDto> updateProduct(
+      @RequestBody @Valid UpdateProductRequestDto requestDto,
+      @AuthenticationPrincipal CustomUserDetails userDetails,
+      @PathVariable UUID id
+  ) {
+    UpdateProductResponseDto responseDto = productService.updateProduct(requestDto, userDetails, id);
+
+    return ResponseEntity
+        .status(HttpStatus.OK)
+        .body(responseDto);
+  }
+
 
 }

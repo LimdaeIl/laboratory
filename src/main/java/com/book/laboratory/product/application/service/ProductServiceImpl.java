@@ -4,9 +4,11 @@ import com.book.laboratory.common.exception.CustomException;
 import com.book.laboratory.common.security.CustomUserDetails;
 import com.book.laboratory.product.application.dto.condition.ProductSearchCondition;
 import com.book.laboratory.product.application.dto.requset.CreateProductRequestDto;
+import com.book.laboratory.product.application.dto.requset.UpdateProductRequestDto;
 import com.book.laboratory.product.application.dto.response.CreateProductResponseDto;
 import com.book.laboratory.product.application.dto.response.GetProductResponseDto;
 import com.book.laboratory.product.application.dto.response.GetProductsResponseDto;
+import com.book.laboratory.product.application.dto.response.UpdateProductResponseDto;
 import com.book.laboratory.product.domain.entity.Product;
 import com.book.laboratory.product.domain.entity.ProductErrorCode;
 import com.book.laboratory.product.domain.repository.ProductQueryRepository;
@@ -14,6 +16,7 @@ import com.book.laboratory.product.domain.repository.ProductRepository;
 import com.book.laboratory.user.domain.user.User;
 import com.book.laboratory.user.domain.user.UserErrorCode;
 import com.book.laboratory.user.domain.user.UserRepository;
+import com.book.laboratory.user.domain.user.UserRole;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -30,7 +33,7 @@ public class ProductServiceImpl implements ProductService {
   private final ProductQueryRepository productQueryRepository;
 
   private Product findProductById(UUID id) {
-    return productRepository.findById(id)
+    return productRepository.findProductById(id)
         .orElseThrow(() -> new CustomException(ProductErrorCode.PRODUCT_NOT_FOUND));
   }
 
@@ -67,10 +70,34 @@ public class ProductServiceImpl implements ProductService {
     return GetProductResponseDto.from(productById, user);
   }
 
-  @Transactional
+  @Transactional(readOnly = true)
   @Override
   public Page<GetProductsResponseDto> getProducts(ProductSearchCondition condition, Pageable page) {
     return productQueryRepository.findProductsByCondition(condition, page);
-
   }
+
+  @Transactional
+  @Override
+  public UpdateProductResponseDto updateProduct(UpdateProductRequestDto requestDto,
+                                                CustomUserDetails userDetails,
+                                                UUID id) {
+
+    Product product = findProductById(id);
+
+    if (userDetails.role() != UserRole.ROLE_ADMIN &&
+        !product.getCreatedBy().equals(userDetails.id())) {
+      throw new CustomException(ProductErrorCode.PRODUCT_UPDATE_FORBIDDEN);
+    }
+
+    if (requestDto.name() != null) {product.changeNameTo(requestDto.name());}
+    if (requestDto.price() != null) {product.changePriceTo(requestDto.price());}
+    if (requestDto.quantity() != null) {product.changeQuantityTo(requestDto.quantity());}
+    if (requestDto.thumbnail() != null) {product.updateThumbnail(requestDto.thumbnail());}
+    if (requestDto.description() != null) {product.changeDescriptionTo(requestDto.description());}
+    if (requestDto.category() != null) {product.changeCategoryTo(requestDto.category());}
+
+    return UpdateProductResponseDto.from(product);
+  }
+
+
 }
