@@ -1,0 +1,17 @@
+### 상품 등록
+POST http://localhost:10000/api/v1/products
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInNvY2lhbFR5cGUiOiJOT05FIiwidXNlcklkIjoxLCJqdGkiOiJiNWMyM2ViMy01YWUyLTRiNjYtOTQ0Zi1mZDA5ZTc3NmU4NzYiLCJzdWIiOiJ0ZXN0QGdtYWlsLmNvbSIsImlhdCI6MTc0ODgzNDA4OSwiZXhwIjoxNzQ4ODM3Njg5fQ.IpJtUzGU3_zV-Ho5l8ZaB7zWxAuGPxlK5xfvOMqDtsfiVje8ZJdyzSPnZd25LfehXeFOvX7kcm2PD2ZN1gRq1g
+
+
+{
+  "name": "오늘의 상품",
+  "price": 110,
+  "quantity": 10,
+  "thumbnail": "",
+  "description": "오늘의 상품 설명",
+  "status": "ACTIVE",
+  "category": "TOP"
+}
+
+

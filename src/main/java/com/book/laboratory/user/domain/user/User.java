@@ -52,7 +52,7 @@ public class User extends BaseEntity {
   @Enumerated(EnumType.STRING)
   @Builder.Default
   @Column(name = "user_role", nullable = false)
-  private UserRole userRole = UserRole.ROLE_USER;
+  private UserRole userRole = UserRole.ROLE_ADMIN; // TODO:임시용!
 
   @Enumerated(EnumType.STRING)
   @Column(name = "social_type")
