@@ -2,6 +2,7 @@ package com.book.laboratory.product.presentation;
 
 import com.book.laboratory.product.application.dto.response.GetProductResponseDto;
 import com.book.laboratory.product.application.service.ProductService;
+import java.util.UUID;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ public class ProductController {
 
   @GetMapping("/{id}")
   public ResponseEntity<GetProductResponseDto> getProduct(
-      @PathVariable Long id
+      @PathVariable UUID id
   ) {
     GetProductResponseDto responseDto = productService.getProduct(id);
 
@@ -29,5 +30,7 @@ public class ProductController {
         .status(HttpStatus.OK)
         .body(responseDto);
   }
+
+
 
 }

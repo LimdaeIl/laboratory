@@ -11,6 +11,7 @@ import com.book.laboratory.product.domain.repository.ProductRepository;
 import com.book.laboratory.user.domain.user.User;
 import com.book.laboratory.user.domain.user.UserErrorCode;
 import com.book.laboratory.user.domain.user.UserRepository;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +23,7 @@ public class ProductServiceImpl implements ProductService {
   private final ProductRepository productRepository;
   private final UserRepository userRepository;
 
-  private Product findProductById(Long id) {
+  private Product findProductById(UUID id) {
     return productRepository.findById(id)
         .orElseThrow(() -> new CustomException(ProductErrorCode.PRODUCT_NOT_FOUND));
   }
@@ -37,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
         .name(requestDto.name())
         .price(requestDto.price())
         .quantity(requestDto.quantity())
-        .thumbnail(requestDto.thumbnail())
+        .thumbnail(requestDto.thumbnail().isBlank() ? null : requestDto.thumbnail())
         .description(requestDto.description())
         .status(requestDto.status())
         .category(requestDto.category())
@@ -50,7 +51,7 @@ public class ProductServiceImpl implements ProductService {
 
   @Transactional(readOnly = true)
   @Override
-  public GetProductResponseDto getProduct(Long id) {
+  public GetProductResponseDto getProduct(UUID id) {
     Product productById = findProductById(id);
     Long createdBy = productById.getCreatedBy();
 
