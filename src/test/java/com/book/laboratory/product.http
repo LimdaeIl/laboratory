@@ -1,8 +1,7 @@
 ### 상품 등록
-POST http://localhost:10000/api/v1/products
+POST http://localhost:10000/api/v1/admin/products
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInNvY2lhbFR5cGUiOiJOT05FIiwidXNlcklkIjoxLCJqdGkiOiJiNWMyM2ViMy01YWUyLTRiNjYtOTQ0Zi1mZDA5ZTc3NmU4NzYiLCJzdWIiOiJ0ZXN0QGdtYWlsLmNvbSIsImlhdCI6MTc0ODgzNDA4OSwiZXhwIjoxNzQ4ODM3Njg5fQ.IpJtUzGU3_zV-Ho5l8ZaB7zWxAuGPxlK5xfvOMqDtsfiVje8ZJdyzSPnZd25LfehXeFOvX7kcm2PD2ZN1gRq1g
-
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInNvY2lhbFR5cGUiOiJOT05FIiwidXNlcklkIjoxLCJqdGkiOiIzMDI2MzAzZC1kZmNlLTRjYTUtYTNjNC05ZDRmYWQ1ZDE5NGIiLCJzdWIiOiJ0ZXN0QGdtYWlsLmNvbSIsImlhdCI6MTc0ODgzNzg2MywiZXhwIjoxNzQ4ODQxNDYzfQ._zDYIBVqpNB4duxjBp1XEmn4U3rXYO-8dfz7Q790kU8qVxcj9jszWvClFIAbzVBp5iYYX-5UKzovCjyqlqnuQg
 
 {
   "name": "오늘의 상품",
@@ -15,3 +14,5 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInNvY2lhb
 }
 
 
+### 상품 조회
+GET http://localhost:10000/api/v1/products/337bb3a4-6ac2-4aa0-8b2a-78564c3b3fd7
