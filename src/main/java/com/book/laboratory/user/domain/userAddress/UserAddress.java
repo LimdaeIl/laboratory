@@ -21,7 +21,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @SuperBuilder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "p_user_address")
+@Table(name = "p_users_address")
 @Entity
 public class UserAddress extends BaseEntity {
 
