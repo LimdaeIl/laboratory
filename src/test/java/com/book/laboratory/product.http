@@ -1,7 +1,7 @@
 ### 상품 등록
 POST http://localhost:10000/api/v1/admin/products
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInNvY2lhbFR5cGUiOiJOT05FIiwidXNlcklkIjoxLCJqdGkiOiIzMzNmM2FkYy1mODIyLTQ2NDUtYmRkOC0xZWE0OTA2MTBjY2UiLCJzdWIiOiJ0ZXN0QGdtYWlsLmNvbSIsImlhdCI6MTc0ODg2MjE3OCwiZXhwIjoxNzQ4ODY1Nzc4fQ.PHt-ltL9Aon7bfqJrYE6S555zOI_DJtJoUdRqOjE3OqwH8ytxKtO4hatoswBH0X89ImYgq0sGshabo7KlpqYFA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInNvY2lhbFR5cGUiOiJOT05FIiwidXNlcklkIjoxLCJqdGkiOiJhZTdkOWE1Zi01NGEzLTQzNjEtYjBkOC1jMDQ2MDNhYmEzZmIiLCJzdWIiOiJ0ZXN0QGdtYWlsLmNvbSIsImlhdCI6MTc0ODg2NjIzMSwiZXhwIjoxNzQ4ODY5ODMxfQ.lx9mmksm2YWicB8BQ_lmcMUExSQ39dhdaYJfB94Xste4BsW9ZiQLrWAp-jGdI-DnOfT7u7nt1mVUDD5uqtSDSg
 
 {
   "name": "오늘의 상품",
@@ -33,5 +33,21 @@ Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInNvY2lhb
   "quantity": 123,
   "thumbnail": "",
   "description": "업데이트",
+  "category": "TOP"
+}
+
+
+### 상품 삭제
+DELETE http://localhost:10000/api/v1/admin/products/42e1a0dc-c509-4178-a0a2-398e2e3011b7
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInNvY2lhbFR5cGUiOiJOT05FIiwidXNlcklkIjoxLCJqdGkiOiJhZTdkOWE1Zi01NGEzLTQzNjEtYjBkOC1jMDQ2MDNhYmEzZmIiLCJzdWIiOiJ0ZXN0QGdtYWlsLmNvbSIsImlhdCI6MTc0ODg2NjIzMSwiZXhwIjoxNzQ4ODY5ODMxfQ.lx9mmksm2YWicB8BQ_lmcMUExSQ39dhdaYJfB94Xste4BsW9ZiQLrWAp-jGdI-DnOfT7u7nt1mVUDD5uqtSDSg
+
+
+{
+  "name": "",
+  "price": 0,
+  "quantity": 0,
+  "thumbnail": "",
+  "description": "",
   "category": "TOP"
 }
