@@ -40,11 +40,12 @@ public class ProductQueryRepositoryImpl implements ProductQueryRepository {
         Set.of(
             "name",
             "price",
-            "category"
+            "category",
+            "createdAt"
         )
     );
 
-    List<GetProductsResponseDto> products = jpaQueryFactory.select(product)
+    List<GetProductsResponseDto> products = jpaQueryFactory
         .select(Projections.constructor(
             GetProductsResponseDto.class,
             product.name,
