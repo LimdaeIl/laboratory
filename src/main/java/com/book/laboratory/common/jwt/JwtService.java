@@ -1,6 +1,6 @@
 package com.book.laboratory.common.jwt;
 
-import com.book.laboratory.user.domain.User;
+import com.book.laboratory.user.domain.user.User;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;

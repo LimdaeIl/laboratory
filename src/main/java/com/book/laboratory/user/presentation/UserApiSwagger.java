@@ -1,7 +1,7 @@
 package com.book.laboratory.user.presentation;
 
-import com.book.laboratory.user.application.dto.request.SignupRequestDto;
-import com.book.laboratory.user.application.dto.response.SignupResponseDto;
+import com.book.laboratory.user.application.user.dto.request.SignupRequestDto;
+import com.book.laboratory.user.application.user.dto.response.SignupResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;

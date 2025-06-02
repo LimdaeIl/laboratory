@@ -3,11 +3,12 @@ package com.book.laboratory.user.application;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.BDDMockito.given;
 
-import com.book.laboratory.user.application.dto.condition.UserSearchCondition;
-import com.book.laboratory.user.application.dto.response.GetUsersResponseDto;
-import com.book.laboratory.user.domain.SocialType;
-import com.book.laboratory.user.domain.UserQueryRepository;
-import com.book.laboratory.user.domain.UserRole;
+import com.book.laboratory.user.application.user.UserServiceImpl;
+import com.book.laboratory.user.application.user.condition.UserSearchCondition;
+import com.book.laboratory.user.application.user.dto.response.GetUsersResponseDto;
+import com.book.laboratory.user.domain.user.SocialType;
+import com.book.laboratory.user.domain.user.UserQueryRepository;
+import com.book.laboratory.user.domain.user.UserRole;
 import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;

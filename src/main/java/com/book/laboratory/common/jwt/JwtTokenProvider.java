@@ -2,7 +2,7 @@ package com.book.laboratory.common.jwt;
 
 
 import com.book.laboratory.common.exception.CustomException;
-import com.book.laboratory.user.domain.UserErrorCode;
+import com.book.laboratory.user.domain.user.UserErrorCode;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;

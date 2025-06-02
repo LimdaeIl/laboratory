@@ -1,6 +1,6 @@
 package com.book.laboratory.common.security;
 
-import com.book.laboratory.user.domain.UserRole;
+import com.book.laboratory.user.domain.user.UserRole;
 import java.util.Collection;
 import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
