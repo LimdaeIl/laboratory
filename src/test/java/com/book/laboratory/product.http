@@ -1,7 +1,7 @@
 ### 상품 등록
 POST http://localhost:10000/api/v1/admin/products
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInNvY2lhbFR5cGUiOiJOT05FIiwidXNlcklkIjoxLCJqdGkiOiJjNzQwMDEzYy0yZjFhLTRiZTktOGE1OC1kMmNlZjhkMGRmZWYiLCJzdWIiOiJ0ZXN0QGdtYWlsLmNvbSIsImlhdCI6MTc0ODg0MTE4MCwiZXhwIjoxNzQ4ODQ0NzgwfQ.AAqTzLbFct4zAKP0akKMZACsrllAKg-39ScTFHgEAGyB_A6uogayEY-MIk8LEC6e0i8I1CjQVMj35b-kHwKuYw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInNvY2lhbFR5cGUiOiJOT05FIiwidXNlcklkIjoxLCJqdGkiOiIzMzNmM2FkYy1mODIyLTQ2NDUtYmRkOC0xZWE0OTA2MTBjY2UiLCJzdWIiOiJ0ZXN0QGdtYWlsLmNvbSIsImlhdCI6MTc0ODg2MjE3OCwiZXhwIjoxNzQ4ODY1Nzc4fQ.PHt-ltL9Aon7bfqJrYE6S555zOI_DJtJoUdRqOjE3OqwH8ytxKtO4hatoswBH0X89ImYgq0sGshabo7KlpqYFA
 
 {
   "name": "오늘의 상품",
@@ -19,3 +19,19 @@ GET http://localhost:10000/api/v1/products/7f5f52fb-5b24-4877-a2a7-34fe3266380e
 
 ### 상품 동적 검색 조회
 GET http://localhost:10000/api/v1/products
+
+
+### 상품 수정
+PATCH http://localhost:10000/api/v1/admin/products/fec622a7-4f68-4b39-a243-569e6bec8ea7
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiUk9MRV9BRE1JTiIsInNvY2lhbFR5cGUiOiJOT05FIiwidXNlcklkIjoxLCJqdGkiOiIzMzNmM2FkYy1mODIyLTQ2NDUtYmRkOC0xZWE0OTA2MTBjY2UiLCJzdWIiOiJ0ZXN0QGdtYWlsLmNvbSIsImlhdCI6MTc0ODg2MjE3OCwiZXhwIjoxNzQ4ODY1Nzc4fQ.PHt-ltL9Aon7bfqJrYE6S555zOI_DJtJoUdRqOjE3OqwH8ytxKtO4hatoswBH0X89ImYgq0sGshabo7KlpqYFA
+
+
+{
+  "name": "업데이트 중",
+  "price": 123,
+  "quantity": 123,
+  "thumbnail": "",
+  "description": "업데이트",
+  "category": "TOP"
+}
