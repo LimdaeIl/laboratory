@@ -1,6 +1,7 @@
 package com.book.laboratory.product.domain.entity;
 
 import com.book.laboratory.common.audit.BaseEntity;
+import com.book.laboratory.common.exception.CustomException;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -50,4 +51,57 @@ public class Product extends BaseEntity {
   @Enumerated(EnumType.STRING)
   @Column(name = "category", nullable = false)
   private ProductCategory category;
+
+  public void changeNameTo(String newName) {
+    if (newName == null || newName.isBlank()) {
+      throw new CustomException(ProductErrorCode.INVALID_PRODUCT_NAME);
+    }
+
+    this.name = newName;
+  }
+
+  public void changePriceTo(Integer newPrice) {
+    if (newPrice == null || newPrice < 0) {
+      throw new CustomException(ProductErrorCode.INVALID_PRODUCT_PRICE);
+    }
+    this.price = newPrice;
+  }
+
+
+  public void changeQuantityTo(Integer amount) {
+    if (amount == null || amount < 0) {
+      throw new CustomException(ProductErrorCode.INVALID_PRODUCT_QUANTITY);
+    }
+
+    this.quantity += amount;
+  }
+
+  public void updateThumbnail(String newThumbnail) {
+    if (newThumbnail == null || newThumbnail.isBlank()) {
+      this.thumbnail = null;
+      return;
+    }
+    this.thumbnail = newThumbnail;
+  }
+
+  public void changeDescriptionTo(String newDescription) {
+    if (newDescription == null || newDescription.isBlank()) {
+      throw new CustomException(ProductErrorCode.INVALID_PRODUCT_DESCRIPTION);
+    }
+    this.description = newDescription;
+  }
+
+  public void changeStatusTo(ProductStatus newStatus) {
+    if (newStatus == null) {
+      throw new CustomException(ProductErrorCode.INVALID_PRODUCT_STATUS);
+    }
+    this.status = newStatus;
+  }
+
+  public void changeCategoryTo(ProductCategory newCategory) {
+    if (newCategory == null) {
+      throw new CustomException(ProductErrorCode.INVALID_PRODUCT_CATEGORY);
+    }
+    this.category = newCategory;
+  }
 }

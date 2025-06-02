@@ -8,6 +8,6 @@ public interface ProductRepository {
 
   Product save(Product product);
 
-  Optional<Product> findById(UUID id);
+  Optional<Product> findProductById(UUID id);
 
 }
