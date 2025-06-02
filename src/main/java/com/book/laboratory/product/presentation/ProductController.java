@@ -31,7 +31,7 @@ public class ProductController {
     CreateProductResponseDto responseDto = productService.createProduct(requestDto, userDetails);
 
     return ResponseEntity
-        .status(HttpStatus.OK)
+        .status(HttpStatus.CREATED)
         .body(responseDto);
   }
 }
