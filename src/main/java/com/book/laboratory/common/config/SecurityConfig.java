@@ -42,17 +42,15 @@ public class SecurityConfig {
     http
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(
-                "/users/login", "/users/signup",
-                "/users/send/email-code", "/users/verify/email-code",
-                "/swagger-ui/**", "/v3/api-docs/**","/swagger-resources/**"
-                )
+                "/api/v1/users/login", "/api/v1/users/signup",
+                "/api/v1/users/send/email-code", "/api/v1/users/verify/email-code",
+                "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**"
+            )
             .permitAll()
             .anyRequest().authenticated());
 
     http
         .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
-
-
 
     return http.build();
   }

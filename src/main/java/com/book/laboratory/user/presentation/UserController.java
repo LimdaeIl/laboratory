@@ -22,7 +22,6 @@ import com.book.laboratory.user.application.dto.response.SoftDeleteResponseDto;
 import com.book.laboratory.user.application.dto.response.UpdateUserEmailResponseDto;
 import com.book.laboratory.user.application.dto.response.UpdateUserInfoResponseDto;
 import com.book.laboratory.user.application.dto.response.UpdateUserRoleRequestDto;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
