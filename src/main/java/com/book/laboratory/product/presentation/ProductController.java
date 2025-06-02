@@ -1,17 +1,12 @@
 package com.book.laboratory.product.presentation;
 
-import com.book.laboratory.common.security.CustomUserDetails;
-import com.book.laboratory.product.application.dto.requset.CreateProductRequestDto;
-import com.book.laboratory.product.application.dto.response.CreateProductResponseDto;
+import com.book.laboratory.product.application.dto.response.GetProductResponseDto;
 import com.book.laboratory.product.application.service.ProductService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,16 +17,15 @@ public class ProductController {
 
   private final ProductService productService;
 
-  @PreAuthorize("hasAnyRole('ADMIN', 'STORE')")
-  @PostMapping
-  public ResponseEntity<CreateProductResponseDto> createProduct(
-      @RequestBody @Valid CreateProductRequestDto requestDto,
-      @AuthenticationPrincipal CustomUserDetails userDetails
+  @PostMapping("/{id}")
+  public ResponseEntity<GetProductResponseDto> getProduct(
+      @PathVariable Long id
   ) {
-    CreateProductResponseDto responseDto = productService.createProduct(requestDto, userDetails);
+    GetProductResponseDto responseDto = productService.getProduct(id);
 
     return ResponseEntity
-        .status(HttpStatus.CREATED)
+        .status(HttpStatus.OK)
         .body(responseDto);
   }
+
 }
